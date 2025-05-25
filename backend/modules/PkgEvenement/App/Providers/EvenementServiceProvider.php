@@ -1,28 +1,27 @@
 <?php
 
-namespace Modules\PkgEvenement\App\Providers; 
+namespace Modules\pkgEvenement\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\pkgEvenement\Repositories\Eloquent\CommunauteRepository;
+use Modules\PkgEvenement\Repositories\Eloquent\UserRepository;
+use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryCommunaute;
+use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryUser;
 
 class EvenementServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        
+        $this->app->bind(IRepositoryUser::class, UserRepository::class);
+        $this->app->bind(IRepositoryCommunaute::class, CommunauteRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
+        $this->loadMigrationsFrom(__DIR__."/../../Database/migrations");
+        $this->loadRoutesFrom(__DIR__."/../../Routes/web.php");
         $this->loadRoutesFrom(__DIR__."/../../Routes/api.php");
+        $this->app['router']->prefix('api')->group(__DIR__ . '/../../Routes/api.php');
 
-        // $this->loadMigrationsFrom(__DIR__."/../../Database/migrations");
-        // $this->loadViewsFrom(__DIR__."/../../Resources/views", "Blog");
-        
     }
 }

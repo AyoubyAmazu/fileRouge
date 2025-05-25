@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import AppMenuItem from './AppMenuItem.vue';
 
 const model = ref([
-   
+
 
     {
         label: 'Hierarchy',
@@ -16,10 +16,10 @@ const model = ref([
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                       
+                        to: '/',
                     },
-                    
-                    
+
+
                 ]
             },
             {
@@ -29,16 +29,17 @@ const model = ref([
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                       
+                        to: '/evenements',
+
                     },
-                    
-                    
+
+
                 ]
             }
-          
+
         ]
     },
-   
+
 ]);
 </script>
 

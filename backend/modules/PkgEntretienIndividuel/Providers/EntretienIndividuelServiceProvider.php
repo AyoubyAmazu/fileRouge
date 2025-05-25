@@ -65,7 +65,7 @@ class EntretienIndividuelServiceProvider extends ServiceProvider
             IFormulaire::class,
             FormulaireRepository::class
         );
-        
+
         $this->app->bind(
             IQuestion::class,
             QuestionRepository::class
@@ -85,7 +85,7 @@ class EntretienIndividuelServiceProvider extends ServiceProvider
             IApprenant::class,
             ApprenantRepository::class
         );
-        
+
         // Register IGroupe repository
         $this->app->bind(
             IGroupe::class,
@@ -101,18 +101,18 @@ class EntretienIndividuelServiceProvider extends ServiceProvider
         $this->app->singleton(GroupeService::class, function ($app) {
             return new GroupeService($app->make(IGroupe::class));
         });
-       
-        
+
+
         // Register FormulaireService
         $this->app->singleton(FormulaireService::class, function ($app) {
             return new FormulaireService($app->make(IFormulaire::class));
         });
-        
+
         // Register EntretienService
         $this->app->singleton(EntretienService::class, function ($app) {
             return new EntretienService($app->make(IEntretien::class));
-        });   
-        
+        });
+
         // Register QuestionService
         $this->app->singleton(QuestionService::class, function ($app) {
             return new QuestionService($app->make(IQuestion::class));
@@ -155,15 +155,15 @@ class EntretienIndividuelServiceProvider extends ServiceProvider
     {
         // Load core migrations first
         $this->loadMigrationsFrom(base_path('app/migrations'));
-        
+
         // Then load module migrations
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-        
+
         // Choose ONE of these approaches, not both:
-        
+
         // Option 1: Load routes without prefix
         $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
-        
+
         // Option 2: Load routes with 'api' prefix (recommended for API routes)
         $this->app['router']->prefix('api')->group(__DIR__ . '/../Routes/api.php');
     }

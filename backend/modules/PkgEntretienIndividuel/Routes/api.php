@@ -13,10 +13,9 @@ use Modules\PkgEntretienIndividuel\Http\Controllers\GroupeController;
 
 
 
-
-Route::get('/hello', function () {
+Route::get('/helloOussama', function () {
     return response()->json([
-        'message' => 'Hello Worldaaa',
+        'message' => 'Hello helloOussama',
         'status' => 'success',
     ], 201);
 });
@@ -25,7 +24,7 @@ Route::get('/hello', function () {
 Route::prefix('api/entretiens')->group(function () {
     Route::get('/', [EntretienController::class, 'index']);
     Route::post('/', [EntretienController::class, 'store']);
-    Route::get('/upcoming/count', [EntretienController::class, 'getUpcomingEntretiensCount']); 
+    Route::get('/upcoming/count', [EntretienController::class, 'getUpcomingEntretiensCount']);
     Route::get('/count/{promotion}', [EntretienController::class, 'getInterviewCountByPromotion']);
     Route::get('/{id}', [EntretienController::class, 'show']);
     Route::put('/{id}', [EntretienController::class, 'update']);
@@ -39,8 +38,8 @@ Route::prefix('api/pre-entretien')->group(function () {
     Route::get('/{id}', [PreEntretienController::class, 'getById']);
     Route::put('/{id}', [PreEntretienController::class, 'update']);
     Route::delete('/{id}', [PreEntretienController::class, 'destroy']);
-    Route::get('/submitted/count/{promotion}', [PreEntretienController::class, 'getSubmittedPreEntretienCount']); 
-    
+    Route::get('/submitted/count/{promotion}', [PreEntretienController::class, 'getSubmittedPreEntretienCount']);
+
 });
 
 // Question routes

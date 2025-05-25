@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents; 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\PkgEntretienIndividuel\Database\Seeders\DatabaseSeeder as EntretienDatabaseSeeder;
 use Modules\PkgEntretienIndividuel\Database\Seeders\ReponsePreEntretienSeeder;
+use Modules\pkgEvenement\Database\Seeders\EvenementDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             EntretienDatabaseSeeder::class,
             ReponsePreEntretienSeeder::class,
+            EvenementDatabaseSeeder::class,
         ]);
     }
-} 
+}
