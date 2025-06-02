@@ -11,9 +11,11 @@ return new class extends Migration
         Schema::create('groupes', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('annee_promotion');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('promotion_id');
             $table->timestamps();
+            $table->foreign('promotion_id')->references('id')->on('promotions')->onDelete('cascade');
+
         });
     }
 

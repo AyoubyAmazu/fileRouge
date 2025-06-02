@@ -5,8 +5,16 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents; 
 use Illuminate\Database\Seeder;
-use Modules\PkgEntretienIndividuel\Database\Seeders\DatabaseSeeder as EntretienDatabaseSeeder;
-use Modules\PkgEntretienIndividuel\Database\Seeders\ReponsePreEntretienSeeder;
+use Modules\PkgApprenant\Database\Seeders\GroupeSeeder;
+use Modules\PkgApprenant\Database\Seeders\PromotionSeeder;
+use Modules\PkgApprenant\Database\Seeders\ApprenantSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\ResponsableSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\PeriodSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\CheckinFormSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\QuestionSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\StudentCheckinSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\StudentCheckinAnswerSeeder;
+use Modules\PkgSessionDeSuivi\Database\Seeders\AIInsightSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,9 +30,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        // seed additional sample users
+        User::factory()->count(20)->create();
+
         $this->call([
-            EntretienDatabaseSeeder::class,
-            ReponsePreEntretienSeeder::class,
+            PromotionSeeder::class,
+            GroupeSeeder::class,
+            ApprenantSeeder::class,
+
+            ResponsableSeeder::class,
+            PeriodSeeder::class,
+            CheckinFormSeeder::class,
+            QuestionSeeder::class,
+            StudentCheckinSeeder::class,
+            StudentCheckinAnswerSeeder::class,
+            AIInsightSeeder::class,
         ]);
     }
 } 
