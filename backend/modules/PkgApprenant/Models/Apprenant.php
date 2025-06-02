@@ -6,6 +6,7 @@ use Modules\PkgApprenant\Models\Groupe;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Apprenant extends Model
 {
     protected $fillable = [
@@ -13,13 +14,11 @@ class Apprenant extends Model
         'groupe_id'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    /**
+     * Belongs to a Groupe.
+     */
     public function groupe()
     {
-        return $this->belongsTo(Groupe::class);
+        return $this->belongsTo(Groupe::class, 'groupe_id');
     }
 } 

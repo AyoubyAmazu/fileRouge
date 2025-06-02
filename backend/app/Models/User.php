@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\EntretienIndividuel\Domain\Entities\Apprenant;
-use Modules\EntretienIndividuel\Domain\Entities\Responsable;
+use Modules\PkgApprenant\Models\Apprenant;
+use Modules\PkgSessionDeSuivi\Domain\Entities\Responsable;
 use Database\Factories\UserFactory;
 
 class User extends Authenticatable
