@@ -13,7 +13,7 @@ class ApprenantSeeder extends Seeder
         // Get group IDs
         $groupA = DB::table('groupes')->where('nom', 'Groupe A')->first()->id;
         $groupB = DB::table('groupes')->where('nom', 'Groupe B')->first()->id;
-        $groupC = DB::table('groupes')->where('nom', 'Groupe A')->first()->id;
+        $groupC = DB::table('groupes')->where('nom', 'Groupe C')->first()->id;
 
         $apprenant1Id = DB::table('users')->insertGetId([
             'name' => 'Pierre Durand',
@@ -40,8 +40,8 @@ class ApprenantSeeder extends Seeder
 
 
         DB::table('apprenants')->insert([
-            ['user_id' => $apprenant1Id, 'groupe_id' => $groupA, 'created_at' => now(), 'updated_at' => now()],
-            ['user_id' => $apprenant2Id, 'groupe_id' => $groupB, 'created_at' => now(), 'updated_at' => now()],
+            ['user_id' => $apprenant1Id, 'groupe_id' => $groupC, 'created_at' => now(), 'updated_at' => now()],
+            ['user_id' => $apprenant2Id, 'groupe_id' => $groupC, 'created_at' => now(), 'updated_at' => now()],
             ['user_id' => $apprenant3Id, 'groupe_id' => $groupA, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }

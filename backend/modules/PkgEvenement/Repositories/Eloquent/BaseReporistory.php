@@ -3,9 +3,9 @@
 namespace Modules\pkgEvenement\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryBase;
+use Modules\pkgEvenement\Repositories\Interfaces\Icrud;
 
-class BaseReporistory implements IRepositoryBase
+class BaseReporistory implements Icrud
 {
     protected Model $model;
 
@@ -16,6 +16,7 @@ class BaseReporistory implements IRepositoryBase
 
     public function all()
     {
+
         return $this->model->all();
     }
 
@@ -24,7 +25,7 @@ class BaseReporistory implements IRepositoryBase
         return $this->model->findOrFail($id);
     }
 
-    public function create(array $data)
+    public function store(array $data)
     {
         return $this->model->create($data);
     }
@@ -40,5 +41,8 @@ class BaseReporistory implements IRepositoryBase
     {
         return $this->model->destroy($id);
     }
+
+
+
 }
 

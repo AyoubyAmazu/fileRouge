@@ -17,6 +17,7 @@ class EvenementDatabaseSeeder extends Seeder
             CommunauteMembreSeeder::class,
             ParticipantSeeder::class,
             PresenceEvenementSeeder::class,
+            JoursSeeder::class,
         ]);
     }
 }

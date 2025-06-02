@@ -2,14 +2,15 @@
 
 namespace Modules\pkgEvenement\Services;
 
+use Modules\pkgEvenement\Repositories\Eloquent\CommunauteRepository;
 use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryCommunaute;
 
-class CommunauteService extends EventBaseService
+class CommunauteService extends BaseService
 {
     // This service class can be used to encapsulate business logic related to communities.
     // For example, you might have methods to create, update, delete, or retrieve communities.
     protected $repository;
-    public function __construct(IRepositoryCommunaute $repository)
+    public function __construct(CommunauteRepository $repository)
     {
         parent::__construct($repository);
 

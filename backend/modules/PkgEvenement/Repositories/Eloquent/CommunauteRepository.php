@@ -3,9 +3,9 @@
 namespace Modules\pkgEvenement\Repositories\Eloquent;
 
 use Modules\pkgEvenement\Models\Communaute;
-use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryCommunaute;
+use Modules\pkgEvenement\Repositories\Interfaces\Icrud;
 
-class CommunauteRepository extends BaseReporistory implements IRepositoryCommunaute
+class CommunauteRepository extends BaseReporistory implements Icrud
 {
 
     public function __construct(Communaute $model)
@@ -16,7 +16,8 @@ class CommunauteRepository extends BaseReporistory implements IRepositoryCommuna
     // You can add custom methods specific to the community repository here.
     public function countCommunaute()
     {
-        return $this->model->count();
+
+        return response()->json(['count' => $this->model->count()]);
     }
 }
 

@@ -13,9 +13,18 @@ class CommunauteSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('communautes')->insert([
-            ['nom' => 'Tech Community', 'description' => 'Passionnés de tech', 'created_at' => now(), 'updated_at' => now()],
-            ['nom' => 'Artistes', 'description' => 'Communauté des artistes', 'created_at' => now(), 'updated_at' => now()],
+        DB::table('communautes')->insert([
+            [
+                'nom' => 'Tech Community',
+                'description' => 'Passionnés de tech',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'nom' => 'Artistes',
+                'description' => 'Communauté des artistes',
+                'created_at' => now(),
+                'updated_at' => now()],
         ]);
     }
 }

@@ -32,6 +32,33 @@ class EvenementSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'titre' => 'Atelier de Développement Web',
+                'description' => 'Atelier pratique sur les frameworks modernes',
+                'date_debut' => '2024-08-20',
+                'date_fin' => '2024-08-20',
+                'lieu' => 'Salle de Formation IT-Wave',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'titre' => 'Séminaire de Sécurité Informatique',
+                'description' => 'Séminaire sur la cybersécurité et la protection des données',
+                'date_debut' => '2024-09-10',
+                'date_fin' => '2024-09-10',
+                'lieu' => 'Centre de Conférences IT-Wave',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'titre' => 'Webinaire sur l\'Intelligence Artificielle',
+                'description' => 'Webinaire interactif sur les applications de l\'IA',
+                'date_debut' => '2024-10-05',
+                'date_fin' => '2024-10-05',
+                'lieu' => 'En ligne',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
     }

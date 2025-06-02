@@ -15,8 +15,24 @@ const router = createRouter({
                 },
                 {
                     path: '/evenements',
-                    name: 'evenements',
+                    name: 'evenementsDashboard',
                     component: () => import('@/modules/Evenement.module/views/Dashboard.vue')
+                },
+                {
+                    path: '/evenements/liste',
+                    name: 'evenementsList',
+                    component: () => import('@/modules/Evenement.module/views/EvenementList.vue')
+
+                },
+                {
+                    path: '/evenements/detail/:id',
+                    name: 'evenementDetail',
+                    component: () => import('@/modules/Evenement.module/views/EvenementDetail.vue')
+                },
+                {
+                    path: '/evenements/creation',
+                    name: 'evenementCreation',
+                    component: () => import('@/modules/Evenement.module/views/EvenementCreation.vue')
                 },
                 {
                     path: '/uikit/formlayout',

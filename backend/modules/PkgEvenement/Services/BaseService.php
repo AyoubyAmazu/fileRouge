@@ -2,33 +2,45 @@
 
 namespace Modules\PkgEvenement\Services;
 
+use Illuminate\Database\Eloquent\Model;
+use Modules\pkgEvenement\Repositories\Eloquent\BaseReporistory;
 use Modules\pkgEvenement\Repositories\Interfaces\IRepositoryBase;
 
-class EventBaseService
+class BaseService
 {
     // This service class can be used to encapsulate business logic related to events.
     // For example, you might have methods to create, update, delete, or retrieve events.
     protected $repository;
-    public function __construct(IRepositoryBase $repository)
+    public function __construct(BaseReporistory $baseReporistory)
     {
-        $this->repository = $repository;
+        $this->repository=$baseReporistory;
 
     }
+
 
     public function getAll()
     {
         // Logic to retrieve all events
-        return $this->repository->all();
+        return response()->json($this->repository->all());
     }
-    public function create(array $data)
+
+    public function find(int $id)
     {
-        // Logic to create an event
+        // Logic to find an event by ID
+        return response()->json($this->repository->find($id));
+    }
+    public function store(array $data)
+    {
+        // Logic to create a new event
+        return response()->json($this->repository->store($data));
     }
 
     public function update(int $id, array $data)
     {
         // Logic to update an event
     }
+
+
 
     public function delete(int $id)
     {

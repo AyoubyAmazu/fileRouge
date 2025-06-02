@@ -14,10 +14,43 @@ class CommunauteMembreSeeder extends Seeder
      */
     public function run(): void
     {
-            DB::table('communaute_membres')->insert([
-            ['communaute_id' => 1, 'apprenant_id' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['communaute_id' => 1, 'apprenant_id' => 2, 'created_at' => now(), 'updated_at' => now()],
-            ['communaute_id' => 2, 'apprenant_id' => 3, 'created_at' => now(), 'updated_at' => now()],
+        DB::table('communaute_membres')->insert([
+            [
+                'communaute_id' => 1,
+                'apprenant_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'communaute_id' => 1,
+                'apprenant_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'communaute_id' => 2,
+                'apprenant_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'communaute_id' => 2,
+                'apprenant_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'communaute_id' => 1,
+                'apprenant_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'communaute_id' => 2,
+                'apprenant_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
         ]);
     }
 }

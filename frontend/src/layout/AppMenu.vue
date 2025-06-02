@@ -32,6 +32,16 @@ const model = ref([
                         to: '/evenements',
 
                     },
+                    {
+                        label: 'Liste des Événements',
+                        icon: 'pi pi-fw pi-list',
+                        to: '/evenements/liste',
+                    },
+                    {
+                        label: 'Ajouter un Événement',
+                        icon: 'pi pi-fw pi-plus',
+                        to: '/evenements/creation',
+                    },
 
 
                 ]
