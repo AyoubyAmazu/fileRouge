@@ -87,11 +87,10 @@ watch(selectedYear, (newYear) => {
     <div v-if="members" >
         <label>Promotion</label>
         <select v-model="selectedYear" class="border px-2 py-1 rounded ml-2">
+            <option value="" disabled selected>Choisir une promotion</option>
             <option v-for="year in eventsYears" :key="year" :value="year">
                 {{ year }}
             </option>
-
-
         </select>
         <div class="grid grid-cols-10 gap-8 mt-4 mb-6">
             <StatsWidget title="Comunicate Total"
@@ -100,12 +99,12 @@ watch(selectedYear, (newYear) => {
 
             />
             <StatsWidget title="Comunicate Members Total"
-            icon-class="pi pi-user text-blue-500 !text-xl"
+            icon-class="pi pi-users text-blue-500 !text-xl"
             :fetchCount="communauteMembersCount"
 
             />
             <StatsWidget title="Events Total"
-            icon-class="pi pi-user text-blue-500 !text-xl"
+            icon-class="pi pi-calendar-clock text-blue-500 !text-xl"
             :fetchCount="eventCount"
 
             />
