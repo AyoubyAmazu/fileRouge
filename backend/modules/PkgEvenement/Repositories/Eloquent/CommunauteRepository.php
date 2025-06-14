@@ -19,6 +19,8 @@ class CommunauteRepository extends BaseReporistory implements Icrud
 
         return response()->json(['count' => $this->model->count()]);
     }
+
+    
 }
 
 

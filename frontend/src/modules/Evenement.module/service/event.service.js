@@ -5,16 +5,16 @@ export const getEventCount = (years) => {
         return api.get('/EventCount?year=' + years);
     } else {
         return api.get('/EventCount');
-    }    
+    }
 };
 
 export const getEventsYears = () => {
     return api.get('/EventYears');
 }
 
-export const getEvents = ( ) => {
-  
-    return api.get('/EventList');
+export const getEvents = ($year) => {
+
+    return api.get('/EventList?year=' + $year);
   }
 
 
@@ -24,10 +24,15 @@ export const getEventById = (id) => {
 
 
 export const deleteEvent = (id) => {
-    return api.delete('/EventDelet/' + id);
+    return api.delete('/EventDelete/' + id);
 }
 
 
-export const ajouterEvent = (event) => {    
+export const ajouterEvent = (event) => {
     return api.post('/EventCreat', event);
+}
+
+
+export const updateEvent = (eventId,event) => {
+    return api.put('/EventUpdate/'+eventId , event);
 }

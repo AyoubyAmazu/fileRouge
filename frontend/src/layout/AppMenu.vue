@@ -42,6 +42,11 @@ const model = ref([
                         icon: 'pi pi-fw pi-plus',
                         to: '/evenements/creation',
                     },
+                    {
+                        label: 'list des communautés',
+                        icon: 'pi pi-fw pi-users',
+                        to: '/communautes',
+                    },
 
 
                 ]

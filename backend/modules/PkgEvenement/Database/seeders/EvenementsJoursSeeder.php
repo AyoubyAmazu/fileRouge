@@ -5,14 +5,14 @@ namespace Modules\pkgEvenement\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class JoursSeeder extends Seeder
+class EvenementsJoursSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('jours')->insert([
+        DB::table('Evenement_jours')->insert([
             [
                 'evenement_id' => 1,
                 'date' => '2025-06-01',

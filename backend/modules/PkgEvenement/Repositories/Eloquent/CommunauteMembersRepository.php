@@ -9,24 +9,21 @@ use Modules\pkgEvenement\Models\CommunauteMembre;
 
 class CommunauteMembersRepository extends BaseReporistory implements Icrud
 {
+    protected $filterBy = 'groupes.annee_promotion'; // Assuming you want to filter by creation date
+    protected $relations = ['apprenant.groupe','apprenant.user',"communaute"]; // Relations to eager load
     public function __construct(CommunauteMembre $model)
     {
         parent::__construct($model);
     }
 
-     public function all($year = null)
+     public function memberOfCommunaute(int $id)
     {
-        if ($year) {
-            return $this->model->whereYear('created_at', $year)
-                ->with('apprenant.user', 'communaute')
-                ->get();
-        }
-        return $this->model->with('apprenant.user','communaute')->get();
+       $result = $this->model->where('communaute_id', $id)->count(); 
+        return response()->json(['count' => $result]);
     }
 
-
     // Implement methods specific to community members repository here
-    public function countMembers($year)
+    public function totalMembers($year)
     {
         // Logic to count community members
         $query = $this->model->newQuery();

@@ -2,12 +2,12 @@
 
 namespace Modules\pkgEvenement\Repositories\Eloquent;
 
-use Modules\pkgEvenement\Models\Participant;
+use Modules\pkgEvenement\Models\Inscription;
 use Modules\pkgEvenement\Repositories\Interfaces\Icrud;
 
-class ParticipantRepository extends BaseReporistory implements Icrud
+class InscriptionRepository extends BaseReporistory implements Icrud
 {
-    public function __construct(Participant $model)
+    public function __construct(Inscription $model)
     {
         parent::__construct($model);
     }

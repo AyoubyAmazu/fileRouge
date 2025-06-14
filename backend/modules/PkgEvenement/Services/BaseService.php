@@ -18,10 +18,10 @@ class BaseService
     }
 
 
-    public function getAll()
+    public function getAll(?int $year,)
     {
         // Logic to retrieve all events
-        return response()->json($this->repository->all());
+        return response()->json($this->repository->all($year));
     }
 
     public function find(int $id)
@@ -32,23 +32,16 @@ class BaseService
     public function store(array $data)
     {
         // Logic to create a new event
-        return response()->json($this->repository->store($data));
+        $this->repository->store($data);
+    }
+    public function destroy(int $id)
+    {
+        $this->repository->destroy($id);
+        return response()->json(['message' => 'Event deleted successfully']);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id,$data)
     {
-        // Logic to update an event
-    }
-
-
-
-    public function delete(int $id)
-    {
-        // Logic to delete an event
-    }
-
-    public function get(int $id)
-    {
-        // Logic to retrieve an event by ID
+        return $this->repository->update($id, $data);
     }
 }

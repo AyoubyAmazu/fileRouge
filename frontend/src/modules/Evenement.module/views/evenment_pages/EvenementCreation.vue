@@ -85,8 +85,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ajouterEvent } from '../service/event.service'
+import { ajouterEvent } from '../../service/event.service'
 const event = ref({
     titre: '',
     description: '',

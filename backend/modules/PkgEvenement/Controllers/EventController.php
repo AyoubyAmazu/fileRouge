@@ -2,6 +2,7 @@
 
 namespace Modules\pkgEvenement\Controllers;
 
+use Illuminate\Http\Request;
 use Modules\pkgEvenement\Services\EventService;
 
 class EventController extends BaseController
@@ -13,7 +14,11 @@ class EventController extends BaseController
         parent::__construct($service);
         $this->service = $service;
     }
-
+    public function index()
+    {
+        $year = request()->query('year', $year ?? null);
+        return $this->service->getAll($year);
+    }
     public function countEvent()
 
     {
@@ -23,6 +28,13 @@ class EventController extends BaseController
      public function getYears()
     {
         return $this->service->getYears();
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $id = request()->query('id',$id);
+        $eventData = $request->all();
+        return $this->service->update($id, $eventData);
     }
 
 }

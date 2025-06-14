@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presence_evenements', function (Blueprint $table) {
+        Schema::create('inscriptions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('participant_id')->constrained('apprenants')->onDelete('cascade');
             $table->foreignId('evenement_id')->constrained('evenements')->onDelete('cascade');
-            $table->foreignId('participant_id')->constrained('participants')->onDelete('cascade');
-            $table->enum('statut', ['present', 'absent'])->default('absent');
+            $table->boolean('est_present')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presence_evenements');
+        Schema::dropIfExists('inscriptions');
     }
 };

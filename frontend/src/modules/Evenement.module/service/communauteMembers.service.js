@@ -16,3 +16,15 @@ export const getMembers = (year ) => {
         return api.get('/communauteMembers');
     }
 };
+
+export const getCommunaute = (year) => {
+    if (year && year !== '' && year !== 'null') {
+        return api.get('/communaute?year=' + year);
+    } else {
+        return api.get('/communaute');
+    }
+}
+
+export const memberOfCommunaute = (communauteId) => {
+    return api.get('/communauteMembers/' + communauteId);
+}

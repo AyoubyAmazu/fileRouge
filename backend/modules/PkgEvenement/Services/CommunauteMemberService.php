@@ -18,11 +18,19 @@ class CommunauteMemberService extends BaseService
         $this->repository = $repository;
     }
 
-    public function countMembers($year = null)
+    public function totalMembers($year = null)
     {
         // Logic to count community members
-        return $this->repository->countMembers($year);
+        return $this->repository->totalMembers($year);
     }
+
+ public function membersOfCommunaute(int $id)
+    {
+        // Logic to check if a user is a member of a community
+        return $this->repository->memberOfCommunaute($id);
+    }
+
+    
 }
 
 

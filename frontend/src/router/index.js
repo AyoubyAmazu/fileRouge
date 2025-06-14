@@ -21,18 +21,28 @@ const router = createRouter({
                 {
                     path: '/evenements/liste',
                     name: 'evenementsList',
-                    component: () => import('@/modules/Evenement.module/views/EvenementList.vue')
+                    component: () => import('@/modules/Evenement.module/views/evenment_pages/EvenementList.vue')
 
                 },
                 {
                     path: '/evenements/detail/:id',
                     name: 'evenementDetail',
-                    component: () => import('@/modules/Evenement.module/views/EvenementDetail.vue')
+                    component: () => import('@/modules/Evenement.module/views/evenment_pages/EvenementDetail.vue')
                 },
                 {
                     path: '/evenements/creation',
                     name: 'evenementCreation',
-                    component: () => import('@/modules/Evenement.module/views/EvenementCreation.vue')
+                    component: () => import('@/modules/Evenement.module/views/evenment_pages/EvenementCreation.vue')
+                },
+                {
+                    path: '/evenements/update/:id',
+                    name: 'evenementUpdate',
+                    component: () => import('@/modules/Evenement.module/views/evenment_pages/EvenementUpdate.vue')
+                },
+                {
+                    path: '/communautes',
+                    name: 'communauteList',
+                    component: () => import('@/modules/Evenement.module/views/communautes_pages/list_communautes.vue')
                 },
                 {
                     path: '/uikit/formlayout',

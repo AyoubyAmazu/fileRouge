@@ -7,7 +7,7 @@ use Modules\PkgApprenant\Models\Apprenant;
 
 class CommunauteMembre extends Model
 {
-   protected $fillable = ['communaute_id', 'utilisateur_id'];
+   protected $fillable = ['communaute_id', 'apprenant_id'];
 
     public function communaute()
     {

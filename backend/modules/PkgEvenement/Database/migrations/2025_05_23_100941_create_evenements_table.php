@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("lieu");
             $table->string("date_debut");
             $table->string("date_fin");
+            $table->foreignId('formateur_id')->nullable()->constrained('formateurs')->onDelete('set null');
             $table->timestamps();
         });
     }

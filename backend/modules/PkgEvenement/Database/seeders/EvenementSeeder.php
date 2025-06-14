@@ -59,6 +59,15 @@ class EvenementSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'titre' => 'Salon des Startups',
+                'description' => 'Rencontre des startups innovantes',
+                'date_debut' => '2024-11-15',
+                'date_fin' => '2024-11-15',
+                'lieu' => 'Parc des Expositions IT-Wave',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
     }

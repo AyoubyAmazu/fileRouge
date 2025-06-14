@@ -8,6 +8,7 @@ use Modules\PkgEvenement\Services\CommunauteMemberService;
 class CommunauteMembersController extends BaseController
 {
     protected $service;
+    protected $relations = ["apprenants", "apprenants.user", "apprenants.group"];
 
 
     public function __construct(CommunauteMemberService $communauteMembersService)
@@ -17,11 +18,17 @@ class CommunauteMembersController extends BaseController
     }
 
 
-    public function countMembers()
+    public function totalMembers()
     {
 
          $year = request()->query('year',  $year ?? now()->year);
-        return $this->service->countMembers($year);
+        return $this->service->totalMembers($year);
+    }
+
+    public function memberOfCommunaute(int $id) 
+    {
+        
+        return $this->service->membersOfCommunaute($id);
     }
 
 }

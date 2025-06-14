@@ -15,7 +15,11 @@ class CommunauteController extends BaseController{
         $this->service = $Communauteservice;
     }
 
-
+    public function index()
+    {
+        $year = request()->query('year', $year ?? null);
+        return $this->service->getAll($year);
+    }
 
     public function countCommunaute()
     {

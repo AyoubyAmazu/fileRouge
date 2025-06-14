@@ -8,4 +8,6 @@ class Communaute extends Model
 {
         protected $fillable = ['nom', 'description'];
 
+
+
 }

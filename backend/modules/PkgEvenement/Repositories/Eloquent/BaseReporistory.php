@@ -8,15 +8,27 @@ use Modules\pkgEvenement\Repositories\Interfaces\Icrud;
 class BaseReporistory implements Icrud
 {
     protected Model $model;
+    protected $filterBy  ;
+    protected $relations=[] ;
 
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-    public function all()
+    public function all(?int $year )
     {
 
+        if($year && $this->relations)
+        {
+            return $this->model->whereRelation($this->relations[0], $this->filterBy, $year)->with($this->relations)->get();
+        }
+        else if($this->relations)
+        {
+             return $this->model->with($this->relations)->get();
+        }else if ($year) {
+            return $this->model->whereYear($this->filterBy, $year)->get();
+        }
         return $this->model->all();
     }
 
@@ -37,9 +49,9 @@ class BaseReporistory implements Icrud
         return $record;
     }
 
-    public function delete($id)
+    public function destroy(int $id)
     {
-        return $this->model->destroy($id);
+         $this->model->destroy($id);
     }
 
 

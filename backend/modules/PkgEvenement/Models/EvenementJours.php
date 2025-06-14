@@ -3,7 +3,7 @@
 namespace Modules\pkgEvenement\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Jours extends Model
+class EvenementJours extends Model
 {
     protected $fillable = [
         'evenement_id',

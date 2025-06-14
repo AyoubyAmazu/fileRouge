@@ -10,14 +10,16 @@ class BaseController extends Controller
 
 {
     protected $service;
+
     function __construct(BaseService $service)
     {
         $this->service = $service;
     }
 
-    public function index()
+    public function index( )
     {
-        return $this->service->getAll();
+        $year = request()->query('year', $year ?? now()->year);
+        return $this->service->getAll($year );
     }
 
     public function find(int $id)
@@ -32,11 +34,20 @@ class BaseController extends Controller
         return $this->service->store($eventData);
     }
 
+    public function destroy(int $id)
+    {
+        $id = request()->query('id',$id);
+        return $this->service->destroy($id);
+    }
 
+    public function update(Request $request, int $id)
+    {
+        $id = request()->query('id',$id);
+        $eventData = $request->all();
+        return $this->service->update($id, $eventData);
+    }
 
 }
-
-
 
 
 ?>
