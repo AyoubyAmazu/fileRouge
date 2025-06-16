@@ -30,7 +30,7 @@ class EventController extends BaseController
         return $this->service->getYears();
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request,  $id)
     {
         $id = request()->query('id',$id);
         $eventData = $request->all();

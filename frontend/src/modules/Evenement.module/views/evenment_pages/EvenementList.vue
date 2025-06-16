@@ -9,8 +9,8 @@
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Gestion des Événements</h1>
             <p class="text-gray-600">Organisez et gérez vos événements facilement</p>
           </div>
-          <button 
-            @click="ajouterEvent()" 
+          <button
+            @click="ajouterEvent()"
             class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -54,8 +54,8 @@
           <div class="ml-4 flex-1">
             <h3 class="text-red-800 font-semibold text-lg">Erreur de chargement</h3>
             <p class="text-red-700 mt-1">Impossible de charger les événements. Vérifiez votre connexion et réessayez.</p>
-            <button 
-              @click="loadData" 
+            <button
+              @click="loadData"
               class="mt-4 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Réessayer
@@ -76,15 +76,15 @@
                 <path d="m21 21-4.3-4.3"/>
               </svg>
             </div>
-            <input 
-              type="text" 
-              v-model="searchQuery" 
-              placeholder="Rechercher des événements par titre, description ou lieu..." 
+            <input
+              type="text"
+              v-model="searchQuery"
+              placeholder="Rechercher des événements par titre, description ou lieu..."
               class="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
             />
-            <button 
-              v-if="searchQuery" 
-              @click="searchQuery = ''" 
+            <button
+              v-if="searchQuery"
+              @click="searchQuery = ''"
               class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -103,8 +103,8 @@
                 </svg>
                 Année :
               </label>
-              <select 
-                v-model="selectedYear" 
+              <select
+                v-model="selectedYear"
                 class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Toutes les années</option>
@@ -114,8 +114,8 @@
 
             <div class="flex items-center gap-2">
               <label class="text-sm font-medium text-gray-700">Statut :</label>
-              <select 
-                v-model="selectedStatus" 
+              <select
+                v-model="selectedStatus"
                 class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Tous les statuts</option>
@@ -127,8 +127,8 @@
 
             <div class="flex items-center gap-2">
               <label class="text-sm font-medium text-gray-700">Trier par :</label>
-              <select 
-                v-model="sortBy" 
+              <select
+                v-model="sortBy"
                 class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="date_asc">Date (Plus proche)</option>
@@ -138,11 +138,11 @@
                 <option value="created_desc">Récemment créé</option>
               </select>
             </div>
-            
+
             <!-- Bouton de réinitialisation des filtres -->
-            <button 
+            <button
               v-if="hasActiveFilters"
-              @click="resetFilters" 
+              @click="resetFilters"
               class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
               Réinitialiser
@@ -164,7 +164,7 @@
                 </svg>
               </button>
             </div>
-            
+
             <div v-if="selectedYear" class="bg-blue-100 px-3 py-1 rounded-full text-sm flex items-center text-blue-800">
               Année: {{ selectedYear }}
               <button @click="selectedYear = ''" class="ml-2 text-blue-600 hover:text-blue-800">
@@ -189,9 +189,9 @@
 
         <!-- Liste des événements -->
         <div class="grid gap-6">
-          <div 
-            v-for="event in paginatedEvents" 
-            :key="event.id" 
+          <div
+            v-for="event in paginatedEvents"
+            :key="event.id"
             class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 hover:border-gray-200"
           >
             <div class="p-6">
@@ -217,9 +217,9 @@
                       <p class="text-sm text-gray-500">ID: #{{ event.id }}</p>
                     </div>
                   </div>
-                  
+
                   <p class="text-gray-600 mb-4 leading-relaxed">{{ event.description }}</p>
-                  
+
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <!-- Date -->
                     <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -236,7 +236,7 @@
                         <div class="text-gray-500">{{ getEventDuration(event) }}</div>
                       </div>
                     </div>
-                    
+
                     <!-- Lieu -->
                     <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div class="h-10 w-10 bg-green-100 rounded-lg flex items-center justify-center">
@@ -252,11 +252,11 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Actions -->
                 <div class="flex flex-col gap-2 ml-4">
-                  <button 
-                    @click="showDetails(event)" 
+                  <button
+                    @click="showDetails(event)"
                     class="p-3 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors group"
                     title="Voir les détails"
                   >
@@ -265,8 +265,8 @@
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
                   </button>
-                  <button 
-                    @click="showDeleteConfirmation(event)" 
+                  <button
+                    @click="showDeleteConfirmation(event)"
                     class="p-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors group"
                     title="Supprimer"
                   >
@@ -299,15 +299,15 @@
             {{ getEmptyStateMessage() }}
           </p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <button 
-              @click="ajouterEvent()" 
+            <button
+              @click="ajouterEvent()"
               class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
             >
               Créer un événement
             </button>
-            <button 
+            <button
               v-if="hasActiveFilters"
-              @click="resetFilters" 
+              @click="resetFilters"
               class="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-medium transition-colors"
             >
               Réinitialiser les filtres
@@ -322,13 +322,13 @@
               Affichage de <span class="font-semibold text-gray-900">{{ startItem }}</span> à <span class="font-semibold text-gray-900">{{ endItem }}</span> sur <span class="font-semibold text-gray-900">{{ totalFilteredItems }}</span> événements
               <span v-if="hasActiveFilters" class="text-blue-600 ml-1">(filtrés)</span>
             </div>
-            
+
             <div class="flex items-center gap-6">
               <!-- Sélecteur d'éléments par page -->
               <div class="flex items-center gap-2">
                 <label class="text-sm font-medium text-gray-700">Afficher:</label>
-                <select 
-                  v-model="pageSize" 
+                <select
+                  v-model="pageSize"
                   class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option :value="4">4</option>
@@ -337,10 +337,10 @@
                   <option :value="20">20</option>
                 </select>
               </div>
-              
+
               <!-- Navigation des pages -->
               <div class="flex items-center gap-2">
-                <button 
+                <button
                   @click="goToPage(currentPage - 1)"
                   :disabled="currentPage === 1"
                   class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -349,10 +349,10 @@
                     <path d="m15 18-6-6 6-6"/>
                   </svg>
                 </button>
-                
+
                 <div class="flex items-center gap-1">
-                  <button 
-                    v-for="page in visiblePages" 
+                  <button
+                    v-for="page in visiblePages"
                     :key="page"
                     v-if="page !== '...'"
                     @click="goToPage(page)"
@@ -367,8 +367,8 @@
                   </button>
                   <span v-else class="px-2 text-gray-500">...</span>
                 </div>
-                
-                <button 
+
+                <button
                   @click="goToPage(currentPage + 1)"
                   :disabled="currentPage === totalPages"
                   class="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -384,12 +384,12 @@
       </div>
 
       <!-- Modal de confirmation de suppression -->
-      <div 
-        v-if="showDeleteModal" 
+      <div
+        v-if="showDeleteModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
         @click="closeDeleteModal"
       >
-        <div 
+        <div
           class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-100"
           @click.stop
         >
@@ -418,7 +418,7 @@
               <p class="text-gray-700 mb-3">
                 Êtes-vous sûr de vouloir supprimer l'événement suivant ?
               </p>
-              
+
               <!-- Aperçu de l'événement à supprimer -->
               <div v-if="eventToDelete" class="bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <div class="flex items-center gap-3 mb-2">
@@ -435,7 +435,7 @@
                     <p class="text-sm text-gray-500">ID: #{{ eventToDelete.id }}</p>
                   </div>
                 </div>
-                
+
                 <div class="text-sm text-gray-600 space-y-1">
                   <div class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
@@ -468,7 +468,7 @@
                 <div class="text-sm">
                   <p class="font-medium text-red-800">Attention !</p>
                   <p class="text-red-700 mt-1">
-                    Cette action supprimera définitivement l'événement et toutes les données associées. 
+                    Cette action supprimera définitivement l'événement et toutes les données associées.
                     Cette opération ne peut pas être annulée.
                   </p>
                 </div>
@@ -478,23 +478,23 @@
 
           <!-- Actions de la modal -->
           <div class="flex gap-3 p-6 pt-0">
-            <button 
+            <button
               @click="closeDeleteModal"
               class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-colors"
               :disabled="isDeleting"
             >
               Annuler
             </button>
-            <button 
+            <button
               @click="confirmDelete"
               :disabled="isDeleting"
               class="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <svg 
-                v-if="isDeleting" 
-                class="animate-spin h-4 w-4" 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
+              <svg
+                v-if="isDeleting"
+                class="animate-spin h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
                 viewBox="0 0 24 24"
               >
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -511,7 +511,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed} from 'vue'
 import { getEvents, getEventsYears, deleteEvent } from '@/modules/Evenement.module/service/event.service.js'
 import { useToast } from 'primevue/usetoast'
 import Toast from 'primevue/toast'
@@ -540,7 +540,7 @@ const isDeleting = ref(false)
 const formatEventDate = (event) => {
   const startDate = new Date(event.date_debut)
   const endDate = new Date(event.date_fin)
-  
+
   if (event.date_debut === event.date_fin) {
     return startDate.toLocaleDateString('fr-FR', {
       weekday: 'long',
@@ -558,7 +558,7 @@ const getEventDuration = (event) => {
   const endDate = new Date(event.date_fin)
   const diffTime = Math.abs(endDate - startDate)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
-  
+
   if (diffDays === 1) {
     return "1 jour"
   } else {
@@ -570,11 +570,11 @@ const getEventStatus = (event) => {
   const today = new Date()
   const startDate = new Date(event.date_debut)
   const endDate = new Date(event.date_fin)
-  
+
   today.setHours(0, 0, 0, 0)
   startDate.setHours(0, 0, 0, 0)
   endDate.setHours(23, 59, 59, 999)
-  
+
   if (today < startDate) {
     return 'À venir'
   } else if (today >= startDate && today <= endDate) {
@@ -646,31 +646,31 @@ const closeDeleteModal = () => {
 
 const confirmDelete = async () => {
   if (!eventToDelete.value || isDeleting.value) return
-  
+
   isDeleting.value = true
-  
+
   try {
     const res = await deleteEvent(eventToDelete.value.id)
-    toast.add({ 
-      severity: 'success', 
-      summary: 'Succès', 
-      detail: res.data.message || 'Événement supprimé avec succès', 
-      life: 3000 
+    toast.add({
+      severity: 'success',
+      summary: 'Succès',
+      detail: res.data.message || 'Événement supprimé avec succès',
+      life: 3000
     })
-    
+
     // Recharger la liste des événements
     await EventsList(selectedYear.value)
-    
+
     // Fermer la modal après succès
     showDeleteModal.value = false
     eventToDelete.value = null
-    
+
   } catch (error) {
-    toast.add({ 
-      severity: 'error', 
-      summary: 'Erreur', 
-      detail: error.response?.data?.message || 'Erreur lors de la suppression', 
-      life: 3000 
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: error.response?.data?.message || 'Erreur lors de la suppression',
+      life: 3000
     })
     console.error('Error deleting event:', error)
   } finally {
@@ -695,19 +695,19 @@ const resetFilters = () => {
 const eventDerstroy = async (id) => {
   try {
     const res = await deleteEvent(id)
-    toast.add({ 
-      severity: 'success', 
-      summary: 'Succès', 
-      detail: res.data.message || 'Événement supprimé avec succès', 
-      life: 3000 
+    toast.add({
+      severity: 'success',
+      summary: 'Succès',
+      detail: res.data.message || 'Événement supprimé avec succès',
+      life: 3000
     })
     await EventsList(selectedYear.value)
   } catch (error) {
-    toast.add({ 
-      severity: 'error', 
-      summary: 'Erreur', 
-      detail: error.response?.data?.message || 'Erreur lors de la suppression', 
-      life: 3000 
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: error.response?.data?.message || 'Erreur lors de la suppression',
+      life: 3000
     })
     console.error('Error deleting event:', error)
   }
@@ -717,7 +717,7 @@ const eventDerstroy = async (id) => {
 const EventsList = async (year = null) => {
   isLoading.value = true
   hasError.value = false
-  
+
   try {
     const res = await getEvents(year)
     events.value = res.data
@@ -725,11 +725,11 @@ const EventsList = async (year = null) => {
   } catch (error) {
     console.error('Error fetching events:', error)
     hasError.value = true
-    toast.add({ 
-      severity: 'error', 
-      summary: 'Erreur', 
-      detail: 'Impossible de charger les événements', 
-      life: 3000 
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: 'Impossible de charger les événements',
+      life: 3000
     })
   } finally {
     isLoading.value = false
@@ -744,11 +744,11 @@ const EventsYears = async () => {
     console.log("Events Years:", res.data)
   } catch (error) {
     console.error('Error fetching events years:', error)
-    toast.add({ 
-      severity: 'warn', 
-      summary: 'Attention', 
-      detail: 'Impossible de charger les filtres par année', 
-      life: 3000 
+    toast.add({
+      severity: 'warn',
+      summary: 'Attention',
+      detail: 'Impossible de charger les filtres par année',
+      life: 3000
     })
   }
 }
@@ -768,7 +768,7 @@ const filteredEvents = computed(() => {
   // Filtre par recherche
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(event => 
+    filtered = filtered.filter(event =>
       event.titre.toLowerCase().includes(query) ||
       event.description.toLowerCase().includes(query) ||
       event.lieu.toLowerCase().includes(query)
@@ -777,7 +777,7 @@ const filteredEvents = computed(() => {
 
   // Filtre par année
   if (selectedYear.value) {
-    filtered = filtered.filter(event => 
+    filtered = filtered.filter(event =>
       String(event.date_debut).startsWith(selectedYear.value)
     )
   }
@@ -835,24 +835,24 @@ const visiblePages = computed(() => {
     }
   } else {
     pages.push(1)
-    
+
     if (current > 4) {
       pages.push('...')
     }
-    
+
     const start = Math.max(2, current - 1)
     const end = Math.min(total - 1, current + 1)
-    
+
     for (let i = start; i <= end; i++) {
       if (!pages.includes(i)) {
         pages.push(i)
       }
     }
-    
+
     if (current < total - 3) {
       pages.push('...')
     }
-    
+
     if (!pages.includes(total)) {
       pages.push(total)
     }

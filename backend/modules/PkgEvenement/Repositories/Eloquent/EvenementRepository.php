@@ -49,7 +49,7 @@ class EvenementRepository extends BaseReporistory implements Icrud
         $evenement->delete();
     }
 
-    public function update($id, array $data)
+    public function update($id,  $data)
     {
         $evenement = $this->model->findOrFail($id);
         $evenement->update($data);

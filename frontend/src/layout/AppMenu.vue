@@ -44,8 +44,18 @@ const model = ref([
                     },
                     {
                         label: 'list des communautés',
-                        icon: 'pi pi-fw pi-users',
+                        icon: 'pi pi-fw pi-globe',
                         to: '/communautes',
+                    },
+                    {
+                        label: 'Ajouter une communauté',
+                        icon: 'pi pi-fw pi-plus',
+                        to: '/communautes/creation',
+                    },
+                    {
+                        label: 'Liste des Membres',
+                        icon: 'pi pi-fw pi-users',
+                        to: '/members',
                     },
 
 

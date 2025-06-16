@@ -16,9 +16,9 @@ class CommunauteMembersRepository extends BaseReporistory implements Icrud
         parent::__construct($model);
     }
 
-     public function memberOfCommunaute(int $id)
+     public function countMemberOfCommunaute(int $id)
     {
-       $result = $this->model->where('communaute_id', $id)->count(); 
+       $result = $this->model->where('communaute_id', $id)->count();
         return response()->json(['count' => $result]);
     }
 
@@ -35,4 +35,9 @@ class CommunauteMembersRepository extends BaseReporistory implements Icrud
         return response()->json(['count' => $count]);
    }
 
+   public function getMembersByCommunaute(int $communauteId)
+    {
+
+        return $this->model->where('communaute_id', $communauteId)->with($this->relations)->get();
+    }
 }

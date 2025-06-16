@@ -25,6 +25,14 @@ export const getCommunaute = (year) => {
     }
 }
 
-export const memberOfCommunaute = (communauteId) => {
-    return api.get('/communauteMembers/' + communauteId);
+export const countMemberOfCommunaute = (communauteId) => {
+    return api.get('/countMemberOfCommunaute/' + communauteId);
+}
+export const membersByCommunaute = (communauteId) => {
+
+        return api.get('/membersByCommunaute/' + communauteId);
+
+}
+export const updateMemberCommunaute = (Id, memberId, data) => {
+    return api.put('/communauteMembers/' + Id + '/' + memberId, data);
 }

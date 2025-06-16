@@ -42,7 +42,7 @@ class BaseReporistory implements Icrud
         return $this->model->create($data);
     }
 
-    public function update($id, array $data)
+    public function update($id, $data)
     {
         $record = $this->model->findOrFail($id);
         $record->update($data);

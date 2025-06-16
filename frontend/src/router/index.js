@@ -45,6 +45,26 @@ const router = createRouter({
                     component: () => import('@/modules/Evenement.module/views/communautes_pages/list_communautes.vue')
                 },
                 {
+                    path : '/communautes/creation',
+                    name: 'communauteCreation',
+                    component: () => import('@/modules/Evenement.module/views/communautes_pages/communaute_creat.vue')
+                },
+                {
+                    path: '/communautes/update/:id',
+                    name: 'communauteUpdate',
+                    component: () => import('@/modules/Evenement.module/views/communautes_pages/communaute_update.vue')
+                },
+                {
+                    path: '/communautes/detail/:id',
+                    name: 'communauteDetail',
+                    component: () => import('@/modules/Evenement.module/views/communautes_pages/communaute_detail.vue')
+                },
+                {
+                    path: '/members',
+                    name: 'members',
+                    component: () => import('@/modules/Evenement.module/views/members_pages/members_list.vue')
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')

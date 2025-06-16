@@ -14,4 +14,18 @@ export const  getCommunaute = (year) => {
     }
 }
 
+export const createCommunaute = (communaute) => {
+    return api.post('/communaute', communaute);
+}
+
+export const deleteCommunaute = (id) => {
+    return api.delete('/communauteDelete/' + id);
+}
+export const getCommunauteById = (id) => {
+    return api.get('/communaute/' + id);
+}
+
+export const updateCommunaute = (id,communaute) => {
+    return api.put('/communauteUpdate/' + id, communaute);
+}
 

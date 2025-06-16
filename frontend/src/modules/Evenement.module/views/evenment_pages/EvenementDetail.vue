@@ -21,7 +21,7 @@
     <div v-else class="container mx-auto max-w-6xl">
       <!-- Bouton retour -->
       <div class="mb-6">
-        <button 
+        <button
           @click="$router.go(-1)"
           class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
         >
@@ -93,7 +93,7 @@
 
           <!-- Actions -->
           <div class="flex flex-col gap-3">
-            <button 
+            <button
               @click="goToUpdate"
               class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 font-medium"
             >
@@ -102,15 +102,6 @@
                 <path d="m15 5 4 4"/>
               </svg>
               Modifier l'événement
-            </button>
-            
-            <button class="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7,10 12,15 17,10"/>
-                <line x1="12" x2="12" y1="15" y2="3"/>
-              </svg>
-              Exporter
             </button>
           </div>
         </div>
@@ -154,8 +145,8 @@
 
         <!-- Liste des jours -->
         <div v-if="event.evenement_jours && event.evenement_jours.length" class="space-y-6">
-          <div 
-            v-for="(jour, index) in event.evenement_jours" 
+          <div
+            v-for="(jour, index) in event.evenement_jours"
             :key="index"
             class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200"
           >
@@ -170,7 +161,7 @@
                   <p class="text-gray-600">{{ formatDate(jour.date) }}</p>
                 </div>
               </div>
-              
+
               <div class="flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
                   <circle cx="12" cy="12" r="10"/>
@@ -184,8 +175,8 @@
             <div class="flex flex-wrap gap-3 mb-4">
               <div :class="[
                 'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium',
-                jour.pause_dejeuner 
-                  ? 'bg-green-100 text-green-800 border border-green-200' 
+                jour.pause_dejeuner
+                  ? 'bg-green-100 text-green-800 border border-green-200'
                   : 'bg-red-100 text-red-800 border border-red-200'
               ]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -198,8 +189,8 @@
 
               <div :class="[
                 'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium',
-                jour.pause_cafe 
-                  ? 'bg-amber-100 text-amber-800 border border-amber-200' 
+                jour.pause_cafe
+                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
                   : 'bg-gray-100 text-gray-800 border border-gray-200'
               ]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -253,7 +244,7 @@
           </div>
           <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucun jour planifié</h3>
           <p class="text-gray-500 mb-6">Commencez par ajouter des jours à votre événement</p>
-          <button 
+          <button
             @click="goToUpdate"
             class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
           >
@@ -295,10 +286,10 @@ const getDayName = (dateStr) => {
 
 const formatEventDate = () => {
   if (!event.value) return ''
-  
+
   const startDate = new Date(event.value.date_debut)
   const endDate = new Date(event.value.date_fin)
-  
+
   if (event.value.date_debut === event.value.date_fin) {
     return startDate.toLocaleDateString('fr-FR', {
       weekday: 'long',
@@ -313,12 +304,12 @@ const formatEventDate = () => {
 
 const getEventDuration = () => {
   if (!event.value) return ''
-  
+
   const startDate = new Date(event.value.date_debut)
   const endDate = new Date(event.value.date_fin)
   const diffTime = Math.abs(endDate - startDate)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
-  
+
   if (diffDays === 1) {
     return "1 jour"
   } else {

@@ -40,11 +40,12 @@ class BaseController extends Controller
         return $this->service->destroy($id);
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request,  $id)
     {
         $id = request()->query('id',$id);
         $eventData = $request->all();
-        return $this->service->update($id, $eventData);
+        $this->service->update($id, $eventData);
+        return response()->json(['message' => 'Event updated successfully']);
     }
 
 }

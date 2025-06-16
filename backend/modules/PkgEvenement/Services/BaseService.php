@@ -32,15 +32,15 @@ class BaseService
     public function store(array $data)
     {
         // Logic to create a new event
-        $this->repository->store($data);
+        return response()->json([$this->repository->store($data)], 201);
     }
     public function destroy(int $id)
     {
         $this->repository->destroy($id);
-        return response()->json(['message' => 'Event deleted successfully']);
+        return response()->json(['message' => 'deleted successfully']);
     }
 
-    public function update(int $id,$data)
+    public function update( $id,$data)
     {
         return $this->repository->update($id, $data);
     }

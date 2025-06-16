@@ -1,7 +1,46 @@
 <template>
   <div class="min-h-screen bg-gray-100 py-8 px-4">
     <div class="container mx-auto">
-      <h1 class="text-2xl font-bold mb-6">Communautés</h1>
+      <!-- En-tête avec boutons d'action -->
+      <div class="mb-6 bg-white rounded-lg shadow p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Communautés</h1>
+            <p class="text-gray-600 mt-2">Gérez vos communautés et leurs membres</p>
+          </div>
+
+          <!-- Boutons d'action -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              @click="ajouterCommunaute()"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors font-medium"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              Créer une communauté
+            </button>
+
+            <button
+              @click="ajouterMembre()"
+              class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors font-medium"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <line x1="22" x2="22" y1="11" y2="13"/>
+                <line x1="21" x2="23" y1="12" y2="12"/>
+              </svg>
+              Ajouter un membre
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Indicateur de chargement -->
       <div v-if="isLoading" class="flex flex-col items-center justify-center py-12 bg-white rounded-lg shadow mb-6">
@@ -378,12 +417,16 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
-import { getCommunaute } from '../../service/communaute.service'
-import { memberOfCommunaute } from '../../service/communauteMembers.service'
+import { useRouter } from 'vue-router'
+import { getCommunaute,deleteCommunaute } from '../../service/communaute.service'
+import { countMemberOfCommunaute } from '../../service/communauteMembers.service'
+import { useToast } from 'primevue/usetoast';
+const toast = useToast();
 
 // État de chargement et d'erreur
 const isLoading = ref(false)
 const hasError = ref(false)
+const router = useRouter();
 
 // Données des communautés
 const communities = ref([])
@@ -396,18 +439,16 @@ const communautesList = async () => {
     // Récupération des communautés
     const res = await getCommunaute()
     communities.value = res.data
-
     // Récupération du nombre de membres pour chaque communauté
     for (const community of communities.value) {
       try {
-        const members = await memberOfCommunaute(community.id)
+        const members = await countMemberOfCommunaute(community.id)
         community.members = members.data.count
       } catch (memberError) {
         console.warn(`Erreur lors de la récupération des membres pour la communauté ${community.id}:`, memberError)
         community.members = 0 // Valeur par défaut en cas d'erreur
       }
     }
-
     console.log('Communautés récupérées:', communities.value)
   } catch (error) {
     console.error('Erreur lors de la récupération des communautés:', error)
@@ -417,6 +458,16 @@ const communautesList = async () => {
   }
 }
 
+const supprimeCommunaute = async (community) =>{
+    try{
+    const  response = await deleteCommunaute(community)
+    toast.add({ severity: 'success', summary: 'Succès', detail: response.data.message , life: 3000 });    console.log('Communauté supprimée:', response.data)
+    }catch (error) {
+      console.error('Erreur lors de la suppression de la communauté:', error)
+    }
+
+
+}
 onMounted(() => {
   communautesList()
 })
@@ -711,17 +762,32 @@ watch(() => filters.value.year, () => {
   filters.value.month = 'all'
 })
 
+// Méthode d'ajout de communauté
+const ajouterCommunaute = () => {
+  router.push({ name: 'communauteCreation' })
+}
+
+// Méthode d'ajout de membre
+const ajouterMembre = () => {
+  // Vous pouvez rediriger vers une page d'ajout de membre
+  // ou ouvrir une modal
+  alert('Redirection vers la page d\'ajout de membre')
+  // Exemple de redirection :
+  // router.push({ name: 'ajouterMembre' })
+}
+
 // Méthodes d'action
 const viewCommunity = (community) => {
-  alert(`Affichage de ${community.nom} (ID: ${community.id}) - ${community.members} membres`)
+    router.push({ name: 'communauteDetail', params: { id: community.id } })
 }
 
 const editCommunity = (community) => {
-  alert(`Modification de ${community.nom} (ID: ${community.id})`)
+    router.push({ name: 'communauteUpdate', params: { id: community.id } })
 }
 
-const deleteCommunity = (community) => {
+const deleteCommunity = async (community) => {
   if (confirm(`Êtes-vous sûr de vouloir supprimer ${community.nom} ?`)) {
+   await supprimeCommunaute(community.id)
     communities.value = communities.value.filter(c => c.id !== community.id)
   }
 }

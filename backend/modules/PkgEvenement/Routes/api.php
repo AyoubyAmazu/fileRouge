@@ -17,13 +17,18 @@ Route::controller( CommunauteController::class)->group(function () {
     Route::get("/communaute/count", 'countCommunaute')->name('communaute.count');
     Route::get('/communautes', 'index')->name('communaute.index');
     Route::get('/communauteYears', 'getYears')->name('communaute.years');
+    Route::post('/communaute', 'store')->name('communaute.store');
+    Route::delete('/communauteDelete/{id}', 'destroy')->name('communaute.destroy');
+    Route::get('/communaute/{id}','find')->name('comuunaute.find');
+    Route::put('/communauteUpdate/{id}', 'update')->name('communaute.update');
 });
 
 
 Route::controller(CommunauteMembersController::class)->group(function () {
     Route::get('/countMembers', 'totalMembers')->name('communaute.members.index');
     Route::get('/communauteMembers', 'index')->name('communaute.members.show');
-    route::get('/communauteMembers/{id}', 'memberOfCommunaute')->name('communaute.members.of');
+    Route::get('/countMemberOfCommunaute/{id}', 'countMemberOfCommunaute')->name('communaute.members.of');
+    Route::get('/membersByCommunaute/{communauteId}', 'getMembersByCommunaute')->name('communaute.members.by');
 });
 
 
