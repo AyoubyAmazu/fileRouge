@@ -21,6 +21,7 @@ class CommunauteService extends BaseService
         // Logic to count communities
         return $this->repository->countCommunaute();
     }
+    
 
 }
 

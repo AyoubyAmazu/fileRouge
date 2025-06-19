@@ -16,6 +16,8 @@ class Inscription extends Model
 
     public function evenement()
     {
-        return $this->belongsTo(Evenement::class);
+        return $this->belongsTo(Evenement::class, 'evenement_id');
     }
+
+
 }

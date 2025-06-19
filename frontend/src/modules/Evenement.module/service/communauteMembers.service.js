@@ -1,38 +1,48 @@
 import api from '@/axios/axios';
 
 export const getCounteMembers = (year) => {
-    console.log('getCounteMembers', year);
    if (year && year !== '' && year !== 'null') {
-    return api.get('/countMembers?year=' + year);
+    return api.get('/totalMembers?year=' + year);
   } else {
-    return api.get('/countMembers');
+    return api.get('/totalMembers');
   }
 };
 
 export const getMembers = (year ) => {
     if (year && year !== '' && year !== 'null') {
-        return api.get('/communauteMembers?year=' + year);
+        return api.get('/apprenants_communautes?year=' + year);
     }else {
-        return api.get('/communauteMembers');
+        return api.get('/apprenants_communautes');
     }
 };
 
-export const getCommunaute = (year) => {
+export const getCommunautes = (year) => {
     if (year && year !== '' && year !== 'null') {
-        return api.get('/communaute?year=' + year);
+        return api.get('/communautes?year=' + year);
     } else {
-        return api.get('/communaute');
+        return api.get('/communautes');
     }
 }
 
 export const countMemberOfCommunaute = (communauteId) => {
     return api.get('/countMemberOfCommunaute/' + communauteId);
 }
+
 export const membersByCommunaute = (communauteId) => {
 
-        return api.get('/membersByCommunaute/' + communauteId);
-
+     return api.get('/membersByCommunaute/' + communauteId);
 }
-export const updateMemberCommunaute = (Id, memberId, data) => {
-    return api.put('/communauteMembers/' + Id + '/' + memberId, data);
+
+export const updateMemberCommunaute = (data) => {
+    return api.post('/apprenants_communautes/update/', data);
+}
+
+
+
+export const apprenantsWithNoCommunaute = () => {
+    return api.get('/apprenants/no_community');
+}
+
+export const addMemberToCommunaute = (data) => {
+    return api.post('/apprenants_communautes/add', data);
 }

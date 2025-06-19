@@ -20,13 +20,13 @@ class CommunauteMembreSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'communaute_id' => 1,
+                'communaute_id' => 2,
                 'apprenant_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'communaute_id' => 2,
+                'communaute_id' => 1,
                 'apprenant_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()

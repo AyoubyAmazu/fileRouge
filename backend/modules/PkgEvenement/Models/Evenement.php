@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evenement extends Model
 {
-        protected $fillable = ['titre', 'description','time', 'date_debut', 'date_fin', 'lieu'];
+        protected $fillable = ['titre', 'description','places','time', 'date_debut', 'date_fin', 'lieu'];
         public function Evenement_jours()
         {
             return $this->hasMany(EvenementJours::class);
@@ -16,6 +16,10 @@ class Evenement extends Model
             return $this->belongsTo(Formateur::class, 'formateur_id');
         }
 
+         public function inscription()
+        {
+            return $this->hasMany(Inscription::class, 'evenment_id');
+        }
 
 }
 

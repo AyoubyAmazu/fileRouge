@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\pkgEvenement\Controllers\CommunauteController;
 use Modules\pkgEvenement\Controllers\CommunauteMembersController;
 use Modules\pkgEvenement\Controllers\EventController;
+use Modules\PkgEvenement\Controllers\InscriptionController;
 
 Route::get('/apiTest', function () {
     return response()->json([
@@ -29,6 +30,7 @@ Route::controller(CommunauteMembersController::class)->group(function () {
     Route::get('/communauteMembers', 'index')->name('communaute.members.show');
     Route::get('/countMemberOfCommunaute/{id}', 'countMemberOfCommunaute')->name('communaute.members.of');
     Route::get('/membersByCommunaute/{communauteId}', 'getMembersByCommunaute')->name('communaute.members.by');
+    Route::get('/communautesOfMember/{id}', 'getCommunitysByMember')->name('communaute.members.communitys');
 });
 
 
@@ -41,3 +43,11 @@ Route::controller(EventController::class)->group(function () {
     Route::put('/EventUpdate/{id}', 'update')->name('event.update');
     Route::delete('/EventDelete/{id}', 'destroy')->name('event.destroy');
 });
+Route::controller(InscriptionController::class)->group(function(){
+    Route::get('/inscription/total', 'countParticipent')->name('inscription.count.participent');
+    Route::get('/inscription/total/presence', 'countPresenceTotal')->name('inscription.count.presence');
+    Route::get('/inscription/evenment', 'countInscriptionByEvent')->name('inscription.count.event');
+    Route::get('/inscription/evenment/presence', 'countPresenceByEvent')->name('inscription.count.event.presence');
+});
+
+

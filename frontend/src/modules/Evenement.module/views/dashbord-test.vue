@@ -67,7 +67,7 @@
               <BarChart3 class="h-8 w-8 text-green-600" />
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600">Taux de Présence Global </p>
+              <p class="text-sm font-medium text-gray-600">Taux de Présence Global</p>
               <p class="text-3xl font-bold text-gray-900">{{ overallAttendanceRate }}%</p>
               <p class="text-sm text-gray-600 flex items-center">
                 <BarChart3 class="h-4 w-4 mr-1" />
@@ -110,7 +110,7 @@
           class="bg-white rounded-lg shadow-lg p-6"
         >
           <div class="flex items-center justify-between mb-4">
-            <h4 class="text-lg font-semibold text-gray-900 truncate">{{ event.titre }}</h4>
+            <h4 class="text-lg font-semibold text-gray-900 truncate">{{ event.title }}</h4>
             <span 
               :class="[
                 'px-2 py-1 text-xs font-semibold rounded-full',
@@ -132,7 +132,7 @@
             </div>
             <div class="flex justify-between items-center">
               <span class="text-sm text-gray-600">Date:</span>
-              <span class="text-sm text-gray-900">{{ formatDate(event.date_debut) }}</span>
+              <span class="text-sm text-gray-900">{{ formatDate(event.date) }}</span>
             </div>
           </div>
 
@@ -160,7 +160,7 @@
         <div class="p-6 border-b border-gray-200">
           <div class="flex items-center justify-between">
             <h3 class="text-xl font-semibold text-gray-900">Événements à Venir</h3>
-            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2" @onclick="router.push('/evenements/creation')">
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
               <Plus class="h-4 w-4" />
               Nouvel Événement
             </button>
@@ -180,7 +180,13 @@
                   Lieu
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Inscriptions
+                  Participants
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -192,28 +198,57 @@
                       <Calendar class="h-5 w-5 text-blue-600" />
                     </div>
                     <div>
-                      <div class="text-sm font-medium text-gray-900">{{ event.titre }}</div>
+                      <div class="text-sm font-medium text-gray-900">{{ event.title }}</div>
                       <div class="text-sm text-gray-500">{{ event.description }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">{{ formatDate(event.date_debut) }}</div>
+                  <div class="text-sm text-gray-900">{{ formatDate(event.date) }}</div>
+                  <div class="text-sm text-gray-500">{{ event.time }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900 flex items-center">
                     <MapPin class="h-4 w-4 mr-1 text-gray-400" />
-                    {{ event.lieu }}
+                    {{ event.location }}
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ event.inscription }}
+                    {{ event.registrations }}/{{ event.maxParticipants }}
                   </div>
-                  
+                  <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                    <div 
+                      class="bg-blue-600 h-2 rounded-full" 
+                      :style="{ width: `${(event.registrations / event.maxParticipants) * 100}%` }"
+                    ></div>
+                  </div>
                 </td>
-               
-               
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span 
+                    :class="[
+                      'inline-flex px-2 py-1 text-xs font-semibold rounded-full',
+                      event.status === 'Ouvert' ? 'bg-green-100 text-green-800' :
+                      event.status === 'Complet' ? 'bg-red-100 text-red-800' :
+                      'bg-yellow-100 text-yellow-800'
+                    ]"
+                  >
+                    {{ event.status }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex items-center gap-2">
+                    <button class="text-blue-600 hover:text-blue-900">
+                      <Eye class="h-4 w-4" />
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900">
+                      <Edit class="h-4 w-4" />
+                    </button>
+                    <button class="text-red-600 hover:text-red-900">
+                      <Trash2 class="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -224,119 +259,135 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick , watch} from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { 
   Users, Building, Calendar, BarChart3, TrendingUp, MapPin, 
   Plus, Eye, Edit, Trash2 
 } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
-import { getCommunauteNumber } from '@/modules/Evenement.module/service/communaute.service'
-import { getCounteMembers } from '@/modules/Evenement.module/service/communauteMembers.service'
-import { getEvents , getEventsYears } from '@/modules/Evenement.module/service/event.service'
-import {countTotalInscription , countTotalPresence , countInscriptionByEvent , countPresenceByEvent } from  '@/modules/Evenement.module/service/inscription.service'
+
 // Mock data
 const stats = ref({
-  totalMembers: 0,
-  totalCommunities: 0,
-  totalInscriptions:0,
-  totalPresences: 0
+  totalMembers: 1247,
+  totalCommunities: 15
 })
-const now = new Date()
-const router = useRouter()
-
-const getTotalCommunities = async () => {
-  try {
-    const response = await getCommunauteNumber()
-    stats.value.totalCommunities = response.data.count
-  } catch (error) {
-    console.error('Error fetching total communities:', error)
-  }
-}
-
-const totalMembers = async()=>
-{
-    try {
-        const response = await getCounteMembers()
-        stats.value.totalMembers = response.data.count
-    } catch (error) {
-        console.error('Error fetching total members:', error)
-    }
-}
-
-const totalInscriptions = async () => {
-  try {
-    const response = await countTotalInscription()
-    console.log('Total inscriptions fetched successfully:', response.data.count)
-    stats.value.totalInscriptions = response.data.count
-  } catch (error) {
-    console.error('Error fetching total inscriptions:', error)
-  }
-}
-
-const totalPresences = async () => {
-  try {
-    const response = await countTotalPresence()
-    console.log('Total presences fetched successfully:',response.data.count)
-    stats.value.totalPresences = response.data.count
-      } catch (error) {
-    console.error('Error fetching total presences:', error)
-  }
-}
-
-const totalInscriptionByEvent = async (eventId) => {
-  try {
-    const response = await countInscriptionByEvent(eventId)
-    return response.data.count
-  } catch (error) {
-    console.error('Error fetching total inscriptions by event:', error)
-    return 0
-  }
-}
-
-const totalPresenceByEvent = async (eventId)=> {
-    try {
-        const response = await countPresenceByEvent(eventId)
-        return response.data.count
-    }catch (error) {
-        console.error('Error fetching total presences by event:', error)
-        return 0
-    }
-}
-
-const getEventsData = async () => {
-  try {
-    const response = await getEvents()
-    eventsData.value = response.data
-    for(const events of eventsData.value) {
-      // Calculate attendance rate for each event
-      events.inscription = await totalInscriptionByEvent(events.id)
-      events.presence = await totalPresenceByEvent(events.id)
-      events.attendanceRate = Math.round((events.presence / events.inscription) * 100) || 0
-    }
-    upcomingEvents.value = eventsData.value.filter(event => new Date(event.date_debut) > now)
-    eventsData.value = eventsData.value.filter(event => new Date(event.date_debut) <= now)
-
-  } catch (error) {
-    console.error('Error fetching events data:', error)
-  }
-}
-
-const eventsYears = async () => {
-  try {
-    const response = await getEventsYears()
-    console.log('Available years:', response.data)
-    availableYears.value = response.data
-  } catch (error) {
-    console.error('Error fetching events years:', error)
-  }
-}
 
 const selectedYear = ref('all')
-const availableYears = ref([])
-// Events data with inscription vs presence for each event
-const eventsData = ref([])
+const availableYears = ref([2023, 2024, 2025])
 
-const upcomingEvents = ref([])
+// Events data with inscription vs presence for each event
+const eventsData = ref([
+  {
+    id: 1,
+    title: "Conférence Tech 2024",
+    date: "2024-03-15",
+    inscriptions: 120,
+    presences: 95,
+    attendanceRate: 79
+  },
+  {
+    id: 2,
+    title: "Workshop Design",
+    date: "2024-04-20",
+    inscriptions: 50,
+    presences: 48,
+    attendanceRate: 96
+  },
+  {
+    id: 3,
+    title: "Hackathon IA",
+    date: "2024-05-10",
+    inscriptions: 80,
+    presences: 65,
+    attendanceRate: 81
+  },
+  {
+    id: 4,
+    title: "Séminaire Business",
+    date: "2024-06-05",
+    inscriptions: 100,
+    presences: 70,
+    attendanceRate: 70
+  },
+  {
+    id: 5,
+    title: "Formation Cyber",
+    date: "2024-07-12",
+    inscriptions: 60,
+    presences: 55,
+    attendanceRate: 92
+  },
+  {
+    id: 6,
+    title: "Conférence 2023",
+    date: "2023-09-15",
+    inscriptions: 90,
+    presences: 72,
+    attendanceRate: 80
+  },
+  {
+    id: 7,
+    title: "Workshop 2023",
+    date: "2023-11-20",
+    inscriptions: 45,
+    presences: 38,
+    attendanceRate: 84
+  },
+  {
+    id: 8,
+    title: "Future Event 2025",
+    date: "2025-02-10",
+    inscriptions: 75,
+    presences: 68,
+    attendanceRate: 91
+  }
+])
+
+const upcomingEvents = ref([
+  {
+    id: 1,
+    title: "Conférence Tech 2025",
+    description: "Technologies émergentes",
+    date: "2025-07-15",
+    time: "14:00",
+    location: "Centre de Conférences Paris",
+    registrations: 85,
+    maxParticipants: 100,
+    status: "Ouvert"
+  },
+  {
+    id: 2,
+    title: "Workshop Design Thinking",
+    description: "Méthodologie créative",
+    date: "2025-07-18",
+    time: "09:00",
+    location: "Salle Innovation",
+    registrations: 25,
+    maxParticipants: 25,
+    status: "Complet"
+  },
+  {
+    id: 3,
+    title: "Hackathon IA",
+    description: "48h de développement",
+    date: "2025-07-22",
+    time: "18:00",
+    location: "Campus Numérique",
+    registrations: 45,
+    maxParticipants: 60,
+    status: "Ouvert"
+  },
+  {
+    id: 4,
+    title: "Séminaire Entrepreneuriat",
+    description: "Création d'entreprise",
+    date: "2025-07-25",
+    time: "10:00",
+    location: "Amphithéâtre A",
+    registrations: 12,
+    maxParticipants: 80,
+    status: "Bientôt"
+  }
+])
 
 // Chart reference
 const attendanceChart = ref(null)
@@ -347,27 +398,28 @@ const filteredEventsData = computed(() => {
     return eventsData.value
   }
   return eventsData.value.filter(event => {
-    const eventYear = new Date(event.date_debut).getFullYear()
+    const eventYear = new Date(event.date).getFullYear()
     return eventYear === parseInt(selectedYear.value)
   })
 })
-
 
 const filteredUpcomingEvents = computed(() => {
   if (selectedYear.value === 'all') {
     return upcomingEvents.value
   }
   return upcomingEvents.value.filter(event => {
-    const eventYear = new Date(event.date_debut).getFullYear()
+    const eventYear = new Date(event.date).getFullYear()
     return eventYear === parseInt(selectedYear.value)
   })
 })
 
-const overallAttendanceRate = computed(  () => {
-   
-    const totalPresences = stats.value.totalPresences || 0
-    const totalInscriptions = stats.value.totalInscriptions 
-    
+const overallAttendanceRate = computed(() => {
+  const filtered = filteredEventsData.value
+  if (filtered.length === 0) return 0
+  
+  const totalInscriptions = filtered.reduce((sum, event) => sum + event.inscriptions, 0)
+  const totalPresences = filtered.reduce((sum, event) => sum + event.presences, 0)
+  
   return Math.round((totalPresences / totalInscriptions) * 100)
 })
 
@@ -418,7 +470,6 @@ const createAttendanceChart = () => {
   ctx.clearRect(0, 0, chartWidth, chartHeight)
   
   const data = filteredEventsData.value
-  console.log
   if (data.length === 0) return
   
   // Chart area
@@ -432,9 +483,9 @@ const createAttendanceChart = () => {
   }
   
   // Find max values
-  const maxInscriptions = Math.max(...data.map(d => d.inscription))
-  const maxPresences = Math.max(...data.map(d => d.presence))
-  const maxValue = Math.max(maxInscriptions,maxPresences)
+  const maxInscriptions = Math.max(...data.map(d => d.inscriptions))
+  const maxPresences = Math.max(...data.map(d => d.presences))
+  const maxValue = Math.max(maxInscriptions, maxPresences)
   
   // Bar width
   const barWidth = chartArea.width / (data.length * 3) // 3 bars per event (inscriptions, presences, gap)
@@ -457,12 +508,12 @@ const createAttendanceChart = () => {
     const x = chartArea.left + (index * groupWidth) + (groupWidth / 4)
     
     // Inscriptions bar (blue)
-    const inscriptionsHeight = (event.inscription / maxValue) * chartArea.height
+    const inscriptionsHeight = (event.inscriptions / maxValue) * chartArea.height
     ctx.fillStyle = '#3b82f6'
     ctx.fillRect(x, chartArea.bottom - inscriptionsHeight, barWidth * 0.8, inscriptionsHeight)
     
     // Presences bar (green)
-    const presencesHeight = (event.presence / maxValue) * chartArea.height
+    const presencesHeight = (event.presences / maxValue) * chartArea.height
     ctx.fillStyle = '#10b981'
     ctx.fillRect(x + barWidth, chartArea.bottom - presencesHeight, barWidth * 0.8, presencesHeight)
     
@@ -474,7 +525,7 @@ const createAttendanceChart = () => {
     ctx.save()
     ctx.translate(labelX, chartArea.bottom + 15)
     ctx.rotate(-Math.PI / 4)
-    ctx.fillText(event.titre.substring(0, 15) + '...', 0, 0)
+    ctx.fillText(event.title.substring(0, 15) + '...', 0, 0)
     ctx.restore()
     
     // Values on bars
@@ -484,12 +535,12 @@ const createAttendanceChart = () => {
     
     // Inscriptions value
     if (inscriptionsHeight > 20) {
-      ctx.fillText(event.inscription, x + barWidth * 0.4, chartArea.bottom - inscriptionsHeight + 15)
+      ctx.fillText(event.inscriptions, x + barWidth * 0.4, chartArea.bottom - inscriptionsHeight + 15)
     }
     
     // Presences value
     if (presencesHeight > 20) {
-      ctx.fillText(event.presence, x + barWidth * 1.4, chartArea.bottom - presencesHeight + 15)
+      ctx.fillText(event.presences, x + barWidth * 1.4, chartArea.bottom - presencesHeight + 15)
     }
   })
   
@@ -506,23 +557,9 @@ const createAttendanceChart = () => {
 }
 
 onMounted(async () => {
-    await nextTick()
-    await getTotalCommunities()
-    await totalMembers()
-    await totalInscriptions()
-    await totalPresences()
-    await getEventsData()
-    eventsYears()
-    if (attendanceChart.value) {
-        createAttendanceChart()
-    }
-})
-
-watch(selectedYear, (newYear) => {
-    console.log('Year changed to:', newYear)
-    totalMembers(newYear)
-    totalInscriptions(newYear)
-    totalPresences(newYear)
-    getTotalCommunities(newYear)
+  await nextTick()
+  if (attendanceChart.value) {
+    createAttendanceChart()
+  }
 })
 </script>

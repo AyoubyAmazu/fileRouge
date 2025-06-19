@@ -36,22 +36,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Community Limit Info -->
-      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-        <div class="flex items-center gap-3">
-          <div class="p-2 bg-amber-100 rounded-lg">
-            <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-medium text-amber-800">Limite de communautés</h3>
-            <p class="text-sm text-amber-700">Chaque membre peut appartenir à un maximum de 2 communautés.</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Filters -->
       <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border-0 p-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -171,14 +155,14 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center gap-3">
                     <div class="h-10 w-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                      {{ getInitials(member.apprenant?.user?.name || '') }}
+                      {{ getInitials(member.user?.name || '') }}
                     </div>
                     <div>
                       <div class="text-sm font-medium text-slate-900">
-                        {{ member.apprenant?.user?.name || '—' }}
+                        {{ member.user?.name || '—' }}
                       </div>
                       <div class="text-sm text-slate-500">
-                        {{ member.apprenant?.user?.email || '—' }}
+                        {{ member.user?.email || '—' }}
                       </div>
                     </div>
                   </div>
@@ -187,14 +171,14 @@
                 <!-- Group -->
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    {{ member.apprenant?.groupe?.nom || '—' }}
+                    {{ member.groupe?.nom || '—' }}
                   </span>
                 </td>
 
                 <!-- Year -->
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                    {{ member.apprenant?.groupe?.annee_promotion || '—' }}
+                    {{ member.groupe?.annee_promotion || '—' }}
                   </span>
                 </td>
 
@@ -292,7 +276,7 @@
                   <div v-else class="space-y-2">
                     <div class="flex flex-wrap gap-1">
                       <span
-                        v-for="comm in member.communaute"
+                        v-for="comm in member.communautes"
                         :key="comm.id"
                         class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                       >
@@ -301,7 +285,7 @@
 
                       <!-- Empty slots -->
                       <span
-                        v-for="n in (2 - (member.communaute?.length || 0))"
+                        v-for="n in (2 - (member.communautes?.length || 0))"
                         :key="`display-empty-${n}`"
                         class="inline-flex items-center px-2 py-1 rounded-full text-xs border border-dashed border-slate-300 text-slate-400"
                       >
@@ -313,13 +297,13 @@
                     <div class="text-xs">
                       <span :class="[
                         'px-2 py-0.5 rounded-full text-xs font-medium',
-                        (member.communaute?.length || 0) === 2
+                        (member.communautes?.length || 0) === 2
                           ? 'bg-green-100 text-green-800'
-                          : (member.communaute?.length || 0) === 1
+                          : (member.communautes?.length || 0) === 1
                             ? 'bg-yellow-100 text-yellow-800'
                             : 'bg-slate-100 text-slate-600'
                       ]">
-                        {{ member.communaute?.length || 0 }}/2 communautés
+                        {{ member.communautes?.length || 0 }}/2 communautés
                       </span>
                     </div>
                   </div>
@@ -391,75 +375,68 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'primevue/usetoast'
+import {getCommunautes , getMembers , updateMemberCommunaute } from '@/modules/Evenement.module/service/communauteMembers.service'
 
-// Mock data - updated to respect 2 community limit
-const mockMembers = [
-  {
-    id: 1,
-    apprenant: {
-      user: { name: "Alice Martin", email: "alice.martin@example.com" },
-      groupe: { nom: "Groupe A", annee_promotion: "2024" }
-    },
-    communaute: [
-      { id: 1, nom: "Développeurs Full Stack" },
-      { id: 2, nom: "Designers UI/UX" }
-    ]
-  },
-  {
-    id: 2,
-    apprenant: {
-      user: { name: "Bob Dupont", email: "bob.dupont@example.com" },
-      groupe: { nom: "Groupe B", annee_promotion: "2023" }
-    },
-    communaute: [
-      { id: 1, nom: "Développeurs Full Stack" }
-    ]
-  },
-  {
-    id: 3,
-    apprenant: {
-      user: { name: "Claire Rousseau", email: "claire.rousseau@example.com" },
-      groupe: { nom: "Groupe A", annee_promotion: "2024" }
-    },
-    communaute: [
-      { id: 3, nom: "Data Scientists" },
-      { id: 4, nom: "DevOps Engineers" }
-    ]
-  },
-  {
-    id: 4,
-    apprenant: {
-      user: { name: "David Chen", email: "david.chen@example.com" },
-      groupe: { nom: "Groupe C", annee_promotion: "2023" }
-    },
-    communaute: []
-  },
-  {
-    id: 5,
-    apprenant: {
-      user: { name: "Emma Wilson", email: "emma.wilson@example.com" },
-      groupe: { nom: "Groupe B", annee_promotion: "2025" }
-    },
-    communaute: [
-      { id: 2, nom: "Designers UI/UX" }
-    ]
+
+const router = useRouter()
+const toast = useToast()
+
+const communautes = async () => {
+  try {
+    loading.value = true
+    const response = await getCommunautes()
+    allCommunautes.value =  response.data
+  } catch (error) {
+    console.error("Erreur lors de la récupération des communautés :", error)
+  } finally {
+    loading.value = false
   }
-]
+}
 
-const mockCommunautes = [
-  { id: 1, nom: "Développeurs Full Stack" },
-  { id: 2, nom: "Designers UI/UX" },
-  { id: 3, nom: "Data Scientists" },
-  { id: 4, nom: "DevOps Engineers" },
-  { id: 5, nom: "Product Managers" }
-]
+const fetchMembers = async () => {
+  try {
+    loading.value = true
+    const response = await getMembers()
+    members.value = response.data.data
+    console.log("Membres récupérés :", members.value)
+    initializeSelectedCommunautes()
+  } catch (error) {
+    console.error("Erreur lors de la récupération des membres :", error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const updateCommunaute = async (data) => {
+  try {
+    loading.value = true
+    const response = await updateMemberCommunaute(data)
+    // Show toast instead of alert
+    toast.add({
+        severity: 'success',
+        summary: 'Succès',
+        detail: 'communautes mis à jour avec succès',
+        life: 3000
+        })
+  } catch (error) {
+toast.add({
+        severity: 'erreur',
+        summary: 'Erreur',
+        detail: error.response?.data?.message || 'Erreur lors de la mise à jour des communautés',
+        life: 3000
+        })  } finally {
+    loading.value = false
+  }
+}
 
 // Constants
 const MAX_COMMUNITIES_PER_MEMBER = 2
 
 // Reactive state
-const members = ref([...mockMembers])
-const allCommunautes = ref([...mockCommunautes])
+const members = ref([])
+const allCommunautes = ref()
 const selectedCommunautes = ref({})
 const loading = ref(false)
 const editingId = ref(null)
@@ -478,21 +455,21 @@ const filters = ref({
 // Initialize selected communities
 const initializeSelectedCommunautes = () => {
   members.value.forEach((member) => {
-    selectedCommunautes.value[member.id] = member.communaute?.map(c => c.id) || []
+    selectedCommunautes.value[member.id] = member.communautes?.map(c => c.id) || []
   })
 }
 
 // Computed properties
 const uniqueGroups = computed(() => {
   const groups = members.value
-    .map(m => m.apprenant?.groupe?.nom)
+    .map(m => m.groupe?.nom)
     .filter(Boolean)
   return [...new Set(groups)].sort()
 })
 
 const uniqueYears = computed(() => {
   const years = members.value
-    .map(m => m.apprenant?.groupe?.annee_promotion)
+    .map(m => m.groupe?.annee_promotion)
     .filter(Boolean)
   return [...new Set(years)].sort((a, b) => b.localeCompare(a))
 })
@@ -505,19 +482,19 @@ const filteredMembers = computed(() => {
   return members.value.filter(member => {
     // Search filter
     const searchTerm = filters.value.search.toLowerCase()
-    const nameMatch = member.apprenant?.user?.name?.toLowerCase().includes(searchTerm)
-    const emailMatch = member.apprenant?.user?.email?.toLowerCase().includes(searchTerm)
+    const nameMatch = member.user?.name?.toLowerCase().includes(searchTerm)
+    const emailMatch = member.user?.email?.toLowerCase().includes(searchTerm)
     const searchMatch = !filters.value.search || nameMatch || emailMatch
 
     // Group filter
-    const groupMatch = !filters.value.groupe || member.apprenant?.groupe?.nom === filters.value.groupe
+    const groupMatch = !filters.value.groupe || member.groupe?.nom === filters.value.groupe
 
     // Year filter
-    const yearMatch = !filters.value.annee || member.apprenant?.groupe?.annee_promotion === filters.value.annee
+    const yearMatch = !filters.value.annee || member.groupe?.annee_promotion === filters.value.annee
 
     // Community filter
     const communityMatch = !filters.value.communaute ||
-      member.communaute?.some(c => c.nom === filters.value.communaute)
+      member.communautes?.some(c => c.nom === filters.value.communaute)
 
     return searchMatch && groupMatch && yearMatch && communityMatch
   })
@@ -590,7 +567,7 @@ const editMember = (memberId) => {
   editingId.value = memberId
   // Reset selected communities to current state
   const member = members.value.find(m => m.id === memberId)
-  selectedCommunautes.value[memberId] = member.communaute?.map(c => c.id) || []
+  selectedCommunautes.value[memberId] = member.communautes?.map(c => c.id) || []
 }
 
 const cancelEdit = () => {
@@ -613,6 +590,7 @@ const removeCommunityFromMember = (memberId, communityId) => {
 }
 
 const saveCommunauteChange = async (member) => {
+
   const selected = selectedCommunautes.value[member.id]
 
   // Validate community limit
@@ -623,26 +601,23 @@ const saveCommunauteChange = async (member) => {
 
   savingMember.value = member.id
 
-  try {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+  const data =ref({
+    id_apprenant: member.id,
+    communautes: selected.map(id => ( id ))
+  })
 
-    // Update member's communities
-    member.communaute = allCommunautes.value.filter(c => selected.includes(c.id))
-
-    console.log('Updated member communities:', {
-      memberId: member.id,
-      communities: selected,
-      count: selected.length
-    })
-
-    alert(`✅ Communautés mises à jour avec succès! (${selected.length}/${MAX_COMMUNITIES_PER_MEMBER})`)
-  } catch (error) {
-    alert('❌ Erreur lors de la mise à jour des communautés.')
-  } finally {
-    savingMember.value = null
+  console.log(data.value);
+  updateCommunaute(data.value).then(() => {
+    // Reset editing state
     editingId.value = null
-  }
+    savingMember.value = null
+    // Refresh members list
+    fetchMembers()
+  }).catch(error => {
+    console.error("Erreur lors de la sauvegarde des communautés :", error)
+    alert('❌ Erreur lors de la sauvegarde des communautés.')
+})
+
 }
 
 const clearFilters = () => {
@@ -661,8 +636,9 @@ const exportMembers = () => {
 }
 
 // Initialize component
-onMounted(() => {
-  initializeSelectedCommunautes()
+onMounted(async () => {
+    communautes();
+    fetchMembers();
   console.log('🚀 Community members page loaded with 2-community limit')
 })
 </script>

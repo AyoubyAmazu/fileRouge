@@ -34,6 +34,10 @@ class CommunauteMemberService extends BaseService
         return $this->repository->getMembersByCommunaute($communauteId);
     }
 
+    public function getCommunitysByMember($id)
+    {
+        return $this->repository->getCommunitysByMember($id);
+    }
 
 }
 

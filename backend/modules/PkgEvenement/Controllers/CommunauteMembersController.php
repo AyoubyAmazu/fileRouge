@@ -35,6 +35,11 @@ class CommunauteMembersController extends BaseController
     {
         return $this->service->getMembersByCommunaute($communauteId);
     }
+
+    public function getCommunitysByMember($id)
+    {
+        return $this->service->getCommunitysByMember($id);
+    }
 }
 
 

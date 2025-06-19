@@ -40,4 +40,9 @@ class CommunauteMembersRepository extends BaseReporistory implements Icrud
 
         return $this->model->where('communaute_id', $communauteId)->with($this->relations)->get();
     }
+
+    public function getCommunitysByMember($id)
+    {
+        return $this->model->where('apprenant_id', $id)->with("communaute")->get();
+    }
 }

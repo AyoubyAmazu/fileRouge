@@ -13,10 +13,37 @@ class InscriptionRepository extends BaseReporistory implements Icrud
     }
     public function countParticipent($year)
     {
-    $query = $this->model->newQuery();
-    if ($year) {
-        $query->whereYear('created_at', $year);
+        $query = $this->model->newQuery();
+        if ($year) {
+            $query->whereHas('evenement',function($q) use ($year){
+                $q->whereYear('date_debut', $year);
+            });
+        }
+            return response()->json(['count' => $query->count()]);
     }
-    return response()->json(['count' => $query->count()]);
+
+    public function countPresenceTotal($year)
+    {
+        $query = $this->model->where('est_present', 1);
+
+        if ($year) {
+            $query->whereHas('evenement', function ($q) use ($year) {
+                $q->whereYear('date_debut', $year);
+            });
+        }
+
+        return response()->json(['count' => $query->count()]);
+    }
+
+    public function countInscriptionByEvent($id)
+    {
+        $query = $this->model->where("evenement_id", $id)->count();
+        return response()->json(['count' => $query]);
+    }
+    
+    public function countPresenceByEvent($id)
+    {
+        $query = $this->model->where("evenement_id", $id)->where('est_present', 1)->count();
+        return response()->json(['count' => $query]);
     }
 }

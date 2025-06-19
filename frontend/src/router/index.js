@@ -65,6 +65,21 @@ const router = createRouter({
                     component: () => import('@/modules/Evenement.module/views/members_pages/members_list.vue')
                 },
                 {
+                    path: '/member/add',
+                    name: 'memberAdd',
+                    component: () => import('@/modules/Evenement.module/views/members_pages/ajouter_member.vue')
+                },
+                {
+                    path: '/participants/inscription',
+                    name: 'participantsInscription',
+                    component: () => import('@/modules/Evenement.module/views/participants_pages/Inscription.vue')
+                },
+                {
+                    path: '/dashboard/test',
+                    name: 'dashboard-test',
+                    component: () => import('@/modules/Evenement.module/views/dashbord-test.vue')
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')

@@ -1,8 +1,8 @@
 import api from '@/axios/axios';
 
-export const getEventCount = (years) => {
-    if (years && years !== '' && years !== 'null') {
-        return api.get('/EventCount?year=' + years);
+export const getEventCount = (year) => {
+    if (year && year !== '' && year !== 'null') {
+        return api.get('/EventCount?year=' + year);
     } else {
         return api.get('/EventCount');
     }
@@ -12,9 +12,13 @@ export const getEventsYears = () => {
     return api.get('/EventYears');
 }
 
-export const getEvents = ($year) => {
+export const getEvents = (year=null) => {
 
-    return api.get('/EventList?year=' + $year);
+     if (year && year !== '' && year !== 'null') {
+        return api.get('/EventList?year=' + year);
+    } else {
+        return api.get('/EventList');
+    }
   }
 
 

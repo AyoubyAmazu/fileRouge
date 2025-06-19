@@ -57,6 +57,11 @@ const model = ref([
                         icon: 'pi pi-fw pi-users',
                         to: '/members',
                     },
+                    {
+                        label: 'Ajouter un Membre',
+                        icon: 'pi pi-fw pi-user-plus',
+                        to: '/member/add',
+                    }
 
 
                 ]

@@ -5,7 +5,7 @@ namespace Modules\PkgApprenant\Models;
 use Modules\PkgApprenant\Models\Groupe;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Modules\pkgEvenement\Models\CommunauteMembre;
+use Modules\pkgEvenement\Models\Communaute;
 
 class Apprenant extends Model
 {
@@ -24,9 +24,9 @@ class Apprenant extends Model
         return $this->belongsTo(Groupe::class);
     }
 
-    public function communauteMembres()
+    public function communautes()
     {
-        return $this->hasMany(CommunauteMembre::class);
+        return $this->belongsToMany(Communaute::class, 'communaute_membres', 'apprenant_id', 'communaute_id');
     }
 
 
