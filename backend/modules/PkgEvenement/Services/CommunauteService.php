@@ -21,7 +21,12 @@ class CommunauteService extends BaseService
         // Logic to count communities
         return $this->repository->countCommunaute();
     }
-    
+    public function getMembersByCommunaute(int $communauteId)
+    {
+        // Logic to get members by community ID
+        return $this->repository->getMembersByCommunaute($communauteId);
+    }
+
 
 }
 

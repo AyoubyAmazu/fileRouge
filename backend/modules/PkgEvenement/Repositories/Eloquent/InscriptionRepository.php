@@ -40,10 +40,16 @@ class InscriptionRepository extends BaseReporistory implements Icrud
         $query = $this->model->where("evenement_id", $id)->count();
         return response()->json(['count' => $query]);
     }
-    
+
     public function countPresenceByEvent($id)
     {
         $query = $this->model->where("evenement_id", $id)->where('est_present', 1)->count();
         return response()->json(['count' => $query]);
+    }
+
+    public function getInscriptionByEvent($id)
+    {
+        $inscriptions = $this->model->where("evenement_id", $id)->with('apprenant.user', 'evenement')->get();
+        return response()->json($inscriptions);
     }
 }

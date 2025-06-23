@@ -27,7 +27,13 @@ class CommunauteController extends BaseController{
         return $this->service->countCommunaute(); // Assuming countCommunaute is a method in the service
     }
 
-    
+    public function getMembersByCommunaute($id)
+    {
 
-    
+        return $this->service->getMembersByCommunaute($id); // Assuming getMembersByCommunaute is a method in the service
+    }
+
+
+
+
 }

@@ -36,6 +36,11 @@ class EventController extends BaseController
         $eventData = $request->all();
         return $this->service->update($id, $eventData);
     }
+    public function upcomingEvents()
+    {
+        $evenments = $this->service->upcomingEvents();
+        return response()->json(["data"=>$evenments]);
+    }
 
 }
 

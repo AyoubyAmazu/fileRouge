@@ -20,9 +20,16 @@ class CommunauteRepository extends BaseReporistory implements Icrud
         return response()->json(['count' => $this->model->count()]);
     }
 
-    
+    public function getMembersByCommunaute(int $communauteId)
+    {
 
-    
+        $members = $this->model->find($communauteId)->members()->with('user','groupe')->get();
+        return response()->json($members);
+    }
+
+
+
+
 }
 
 

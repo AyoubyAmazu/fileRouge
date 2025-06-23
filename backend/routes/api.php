@@ -24,6 +24,7 @@ Route::controller(ApprenantController::class)->group(function () {
     Route::get('/apprenants/no_community', 'apprenantWithNoCommunity')->name('apprenant.no_community');
     Route::post('/apprenants_communautes/add', 'addCommunuates')->name('apprenant.add.communautes');
     Route::get('/totalMembers', 'totalMembers')->name('apprenant.total_members');
+    Route::get('/apprenant/notInscrip/{id}',"apprenantNoInscripe")->name("apprenant.notInscrip");
 });
 
 

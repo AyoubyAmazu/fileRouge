@@ -43,6 +43,10 @@ class EventService extends BaseService
         return $this->repository->update($id, $eventData);
     }
 
+    public function upcomingEvents(){
+        return $this->repository->upcomingEvents();
+    }
+
 }
 
 

@@ -2,14 +2,14 @@
 namespace Modules\PkgEvenement\Controllers;
 use Illuminate\Http\Request;
 use Modules\PkgEvenement\Services\InscriptionService;
-use App\Http\Controllers\Controller;
 
-class InscriptionController extends Controller
+class InscriptionController extends BaseController
 {
     protected $inscriptionService;
 
     public function __construct(InscriptionService $inscriptionService)
     {
+        parent::__construct($inscriptionService);
         $this->inscriptionService = $inscriptionService;
     }
 
@@ -35,6 +35,11 @@ class InscriptionController extends Controller
     {
         $id = $request->query('id');
         return $this->inscriptionService->countPresenceByEvent($id);
+    }
+
+    public function inscriptionByEvent($id)
+    {
+        return $this->inscriptionService->getInscriptionByEvent($id);
     }
 }
 

@@ -769,11 +769,7 @@ const ajouterCommunaute = () => {
 
 // Méthode d'ajout de membre
 const ajouterMembre = () => {
-  // Vous pouvez rediriger vers une page d'ajout de membre
-  // ou ouvrir une modal
-  alert('Redirection vers la page d\'ajout de membre')
-  // Exemple de redirection :
-  // router.push({ name: 'ajouterMembre' })
+  router.push('/member/add')
 }
 
 // Méthodes d'action

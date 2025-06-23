@@ -108,6 +108,15 @@ class ApprenantController extends Controller
         return response()->json(['count' => $count]);
     }
 
+    public function apprenantNoInscripe($id)
+    {
+        $query = Apprenant::whereDoesntHave('inscriptions', function($q) use ($id) {
+            $q->where('evenement_id', $id);
+        })->whereDoesntHave('communautes')->with('user','groupe')->get();
+
+        return response()->json($query);
+    }
+
 }
 
 

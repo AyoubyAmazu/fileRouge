@@ -18,7 +18,7 @@ class Evenement extends Model
 
          public function inscription()
         {
-            return $this->hasMany(Inscription::class, 'evenment_id');
+            return $this->hasMany(Inscription::class, 'evenement_id');
         }
 
 }

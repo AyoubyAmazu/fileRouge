@@ -23,6 +23,11 @@
           </div>
         </div>
       </div>
+      <div v-if="isLoading" class="flex flex-col items-center justify-center min-h-[300px]">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+        <p class="text-indigo-700 font-medium">Chargement des données...</p>
+        </div>
+        <div v-else>
 
       <!-- Stats Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -111,7 +116,7 @@
         >
           <div class="flex items-center justify-between mb-4">
             <h4 class="text-lg font-semibold text-gray-900 truncate">{{ event.titre }}</h4>
-            <span 
+            <span
               :class="[
                 'px-2 py-1 text-xs font-semibold rounded-full',
                 getAttendanceColor(event.attendanceRate)
@@ -120,7 +125,7 @@
               {{ event.attendanceRate }}%
             </span>
           </div>
-          
+
           <div class="space-y-3">
             <div class="flex justify-between items-center">
               <span class="text-sm text-gray-600">Inscriptions:</span>
@@ -143,7 +148,7 @@
               <span>{{ event.attendanceRate }}%</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 :class="[
                   'h-2 rounded-full transition-all duration-300',
                   getAttendanceBarColor(event.attendanceRate)
@@ -210,10 +215,10 @@
                   <div class="text-sm text-gray-900">
                     {{ event.inscription }}
                   </div>
-                  
+
                 </td>
-               
-               
+
+
               </tr>
             </tbody>
           </table>
@@ -221,13 +226,14 @@
       </div>
     </div>
   </div>
+    </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, nextTick , watch} from 'vue'
-import { 
-  Users, Building, Calendar, BarChart3, TrendingUp, MapPin, 
-  Plus, Eye, Edit, Trash2 
+import {
+  Users, Building, Calendar, BarChart3, TrendingUp, MapPin,
+  Plus, Eye, Edit, Trash2
 } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import { getCommunauteNumber } from '@/modules/Evenement.module/service/communaute.service'
@@ -241,6 +247,7 @@ const stats = ref({
   totalInscriptions:0,
   totalPresences: 0
 })
+const isLoading = ref(true)
 const now = new Date()
 const router = useRouter()
 
@@ -258,6 +265,7 @@ const totalMembers = async()=>
     try {
         const response = await getCounteMembers()
         stats.value.totalMembers = response.data.count
+        console.log("totalmember",stats.value.totalMembers)
     } catch (error) {
         console.error('Error fetching total members:', error)
     }
@@ -364,10 +372,10 @@ const filteredUpcomingEvents = computed(() => {
 })
 
 const overallAttendanceRate = computed(  () => {
-   
+
     const totalPresences = stats.value.totalPresences || 0
-    const totalInscriptions = stats.value.totalInscriptions 
-    
+    const totalInscriptions = stats.value.totalInscriptions
+
   return Math.round((totalPresences / totalInscriptions) * 100)
 })
 
@@ -405,22 +413,21 @@ const filterDataByYear = () => {
 const createAttendanceChart = () => {
   const canvas = attendanceChart.value
   const ctx = canvas.getContext('2d')
-  
+
   // Set canvas size
   canvas.width = canvas.offsetWidth
   canvas.height = canvas.offsetHeight
-  
+
   const chartWidth = canvas.width
   const chartHeight = canvas.height
   const padding = 60
-  
+
   // Clear canvas
   ctx.clearRect(0, 0, chartWidth, chartHeight)
-  
+
   const data = filteredEventsData.value
-  console.log
   if (data.length === 0) return
-  
+
   // Chart area
   const chartArea = {
     left: padding,
@@ -430,20 +437,20 @@ const createAttendanceChart = () => {
     width: chartWidth - (padding * 2),
     height: chartHeight - (padding * 2)
   }
-  
+
   // Find max values
   const maxInscriptions = Math.max(...data.map(d => d.inscription))
   const maxPresences = Math.max(...data.map(d => d.presence))
   const maxValue = Math.max(maxInscriptions,maxPresences)
-  
+
   // Bar width
   const barWidth = chartArea.width / (data.length * 3) // 3 bars per event (inscriptions, presences, gap)
   const groupWidth = barWidth * 2.5
-  
+
   // Draw grid lines
   ctx.strokeStyle = '#e5e7eb'
   ctx.lineWidth = 1
-  
+
   for (let i = 0; i <= 5; i++) {
     const y = chartArea.top + (i * chartArea.height / 5)
     ctx.beginPath()
@@ -451,21 +458,21 @@ const createAttendanceChart = () => {
     ctx.lineTo(chartArea.right, y)
     ctx.stroke()
   }
-  
+
   // Draw bars
   data.forEach((event, index) => {
     const x = chartArea.left + (index * groupWidth) + (groupWidth / 4)
-    
+
     // Inscriptions bar (blue)
     const inscriptionsHeight = (event.inscription / maxValue) * chartArea.height
     ctx.fillStyle = '#3b82f6'
     ctx.fillRect(x, chartArea.bottom - inscriptionsHeight, barWidth * 0.8, inscriptionsHeight)
-    
+
     // Presences bar (green)
     const presencesHeight = (event.presence / maxValue) * chartArea.height
     ctx.fillStyle = '#10b981'
     ctx.fillRect(x + barWidth, chartArea.bottom - presencesHeight, barWidth * 0.8, presencesHeight)
-    
+
     // Event labels
     ctx.fillStyle = '#6b7280'
     ctx.font = '10px sans-serif'
@@ -476,28 +483,28 @@ const createAttendanceChart = () => {
     ctx.rotate(-Math.PI / 4)
     ctx.fillText(event.titre.substring(0, 15) + '...', 0, 0)
     ctx.restore()
-    
+
     // Values on bars
     ctx.fillStyle = '#ffffff'
     ctx.font = 'bold 10px sans-serif'
     ctx.textAlign = 'center'
-    
+
     // Inscriptions value
     if (inscriptionsHeight > 20) {
       ctx.fillText(event.inscription, x + barWidth * 0.4, chartArea.bottom - inscriptionsHeight + 15)
     }
-    
+
     // Presences value
     if (presencesHeight > 20) {
       ctx.fillText(event.presence, x + barWidth * 1.4, chartArea.bottom - presencesHeight + 15)
     }
   })
-  
+
   // Y-axis labels
   ctx.fillStyle = '#6b7280'
   ctx.font = '12px sans-serif'
   ctx.textAlign = 'right'
-  
+
   for (let i = 0; i <= 5; i++) {
     const value = Math.round((maxValue / 5) * (5 - i))
     const y = chartArea.top + (i * chartArea.height / 5)
@@ -506,16 +513,19 @@ const createAttendanceChart = () => {
 }
 
 onMounted(async () => {
+      isLoading.value = true
     await nextTick()
     await getTotalCommunities()
     await totalMembers()
     await totalInscriptions()
     await totalPresences()
     await getEventsData()
-    eventsYears()
+    await eventsYears()
     if (attendanceChart.value) {
         createAttendanceChart()
     }
+      isLoading.value = false
+
 })
 
 watch(selectedYear, (newYear) => {

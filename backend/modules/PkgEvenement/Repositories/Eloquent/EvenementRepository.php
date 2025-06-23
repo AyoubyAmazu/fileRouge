@@ -59,4 +59,10 @@ class EvenementRepository extends BaseReporistory implements Icrud
         }
         return $evenement;
     }
+
+    public function upcomingEvents()
+    {
+        return $this->model->where("date_debut",">=",now())->with('inscription')->get();
+
+    }
 }

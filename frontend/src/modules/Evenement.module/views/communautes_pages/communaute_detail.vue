@@ -142,7 +142,7 @@
               <div class="flex items-center gap-3 flex-1 min-w-0">
                 <div class="relative">
                   <div class="h-12 w-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                    {{ getInitials(member.apprenant?.user?.name || '') }}
+                    {{ getInitials(member.user?.name || '') }}
                   </div>
                   <div class="absolute -top-1 -right-1 bg-slate-100 text-slate-600 text-xs font-medium px-2 py-1 rounded-full border border-slate-200">
                     #{{ index + 1 }}
@@ -151,13 +151,13 @@
 
                 <div class="flex-1 min-w-0">
                   <h4 class="font-semibold text-slate-800 truncate mb-1">
-                    {{ member.apprenant?.user?.name || '—' }}
+                    {{ member.user?.name || '—' }}
                   </h4>
                   <div class="flex items-center gap-2 text-sm text-slate-500">
                     <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <span class="truncate">{{ member.apprenant?.user?.email || '—' }}</span>
+                    <span class="truncate">{{ member.user?.email || '—' }}</span>
                   </div>
                 </div>
               </div>
@@ -169,7 +169,7 @@
                     <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <span class="font-medium">{{ member.apprenant?.groupe?.nom || '—' }}</span>
+                    <span class="font-medium">{{ member.groupe?.nom || '—' }}</span>
                   </div>
                   <span class="text-xs text-slate-400">Groupe</span>
                 </div>
@@ -181,7 +181,7 @@
                     <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10a2 2 0 002 2h4a2 2 0 002-2V11m-6 0h8m-8 0H6a2 2 0 00-2 2v6a2 2 0 002 2h2m8-10V9a2 2 0 00-2-2H10a2 2 0 00-2 2v2m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2h-2" />
                     </svg>
-                    <span class="font-medium">{{ member.apprenant?.groupe?.annee_promotion || '—' }}</span>
+                    <span class="font-medium">{{ member.groupe?.annee_promotion || '—' }}</span>
                   </div>
                   <span class="text-xs text-slate-400">Année</span>
                 </div>
@@ -220,7 +220,7 @@ const filters = ref({
 // Get unique groups for filter dropdown
 const uniqueGroups = computed(() => {
   const groups = members.value
-    .map(m => m.apprenant?.groupe?.nom)
+    .map(m => m.groupe?.nom)
     .filter(Boolean)
   return [...new Set(groups)].sort()
 })
@@ -228,7 +228,7 @@ const uniqueGroups = computed(() => {
 // Get unique years for filter dropdown (sorted newest first)
 const uniqueYears = computed(() => {
   const years = members.value
-    .map(m => m.apprenant?.groupe?.annee_promotion)
+    .map(m => m.groupe?.annee_promotion)
     .filter(Boolean)
   return [...new Set(years)].sort((a, b) => b.localeCompare(a))
 })
@@ -238,15 +238,15 @@ const filteredMembers = computed(() => {
   return members.value.filter(member => {
     // Search filter (name or email)
     const searchTerm = filters.value.search.toLowerCase()
-    const nameMatch = member.apprenant?.user?.name?.toLowerCase().includes(searchTerm)
-    const emailMatch = member.apprenant?.user?.email?.toLowerCase().includes(searchTerm)
+    const nameMatch = member.user?.name?.toLowerCase().includes(searchTerm)
+    const emailMatch = member.user?.email?.toLowerCase().includes(searchTerm)
     const searchMatch = !filters.value.search || nameMatch || emailMatch
 
     // Group filter
-    const groupMatch = !filters.value.groupe || member.apprenant?.groupe?.nom === filters.value.groupe
+    const groupMatch = !filters.value.groupe || member.groupe?.nom === filters.value.groupe
 
     // Year filter
-    const yearMatch = !filters.value.annee || member.apprenant?.groupe?.annee_promotion === filters.value.annee
+    const yearMatch = !filters.value.annee || member.groupe?.annee_promotion === filters.value.annee
 
     return searchMatch && groupMatch && yearMatch
   })

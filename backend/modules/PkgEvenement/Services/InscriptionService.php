@@ -9,6 +9,7 @@ class InscriptionService extends BaseService
 
     public function __construct(InscriptionRepository $inscriptionRepository)
     {
+        parent::__construct($inscriptionRepository);
         $this->inscriptionRepository = $inscriptionRepository;
     }
 
@@ -29,6 +30,11 @@ class InscriptionService extends BaseService
     public function countPresenceByEvent($id)
     {
         return $this->inscriptionRepository->countPresenceByEvent($id);
+    }
+
+    public function getInscriptionByEvent($id)
+    {
+        return $this->inscriptionRepository->getInscriptionByEvent($id);
     }
 
 }

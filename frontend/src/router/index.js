@@ -75,9 +75,15 @@ const router = createRouter({
                     component: () => import('@/modules/Evenement.module/views/participants_pages/Inscription.vue')
                 },
                 {
-                    path: '/dashboard/test',
-                    name: 'dashboard-test',
-                    component: () => import('@/modules/Evenement.module/views/dashbord-test.vue')
+                    path: '/evenement/inscriptions',
+                    name: 'evenmentInscription',
+                    component: () => import('@/modules/Evenement.module/views/participants_pages/inscriptionEvenment.vue')
+
+                },
+                {
+                    path: '/inscription',
+                    name: 'inscriptionEvent',
+                    component:()=> import('@/modules/Evenement.module/views/participants_pages/Inscription.vue')
                 },
                 {
                     path: '/uikit/formlayout',

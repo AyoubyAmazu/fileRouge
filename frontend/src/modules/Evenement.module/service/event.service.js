@@ -40,3 +40,8 @@ export const ajouterEvent = (event) => {
 export const updateEvent = (eventId,event) => {
     return api.put('/EventUpdate/'+eventId , event);
 }
+
+export const upcomingEvents = () =>
+{
+        return api.get('/Events/upcoming');
+}
